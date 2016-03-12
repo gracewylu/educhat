@@ -5,7 +5,7 @@ var rooms = document.getElementById('slide-out');
 function addRoom(){
 
    //TODO: make sure to add the room to the database as well 
-   var room_name = document.getElementById('room_name').value;
+   var room_name = document.getElementById('class').value;
 
    $('div#room_links').append('<li><a href="?room_name=' + room_name+ '" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
 }
@@ -49,6 +49,25 @@ function init(){
       console.log('Unable to connect to server', reason);
    });
 
+    function newRoom(){
+      var room = $('#class').val();
+      var department = $('#depo').val();
+      var adminstrator = $('#admin').val();
+      var pass = $('#password').val();
+      $.ajax({
+         url: '/newRoom', 
+         type: 'POST', 
+         contentType: 'application/json', 
+         dataType: 'json', 
+         data: JSON.stringify({
+             class: room, 
+             depo: department, 
+             admin: adminstrator,
+             password: pass
+        })
+      });
+   }
+
    function sendMessage(){
       var outgoingMessage = $('#message_input').val();
       $.ajax({
@@ -77,6 +96,7 @@ function init(){
    $('#message_input').on('keydown', messageInputKeyDown);
    $('#message_input').on('keyup', messageInputKeyUp);
    $('#send').on('click', sendMessage);
+   $('#add_room_button').on('click', newRoom);
 }
 
 var room_name = getParameterByName('room_name');

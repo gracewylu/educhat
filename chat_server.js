@@ -85,6 +85,12 @@ app.post("/message", function(request, response) {
 
 });
 
+app.post("/newRoom", function(request, response){
+    console.log(request.body.class);
+    console.log(request.body.depo);
+    console.log(request.body.admin);
+});
+
 /* Socket.IO events */
 // io.on("connection", function(socket){
 

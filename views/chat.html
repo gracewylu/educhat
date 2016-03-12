@@ -31,7 +31,7 @@
 	<div id="addroom_modal" class="modal">
 		<div class="modal-content">
 			<h4 class="center">Add a room</h4>
-			<form class="col s12" method="POST" action="#">
+			<form class="col s12" method="POST" action="/newRoom">
 			<div class="row">
 				<div class="input-field col l7 offset-l3 m6 s12 ">
 					<input id="class" name="class" type="text" class="validate"/>
@@ -51,7 +51,8 @@
                 </div>
 			</div>
 			<div class="row center-align">
-                <input type="submit" value="Add"/>
+                
+				<div type="submit" id="add_room_button" class="btn waves-effect waves-light custom-button grey darken-4">Add</div>
 			</div>
 		</form>
 		</div>
