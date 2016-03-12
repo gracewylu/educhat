@@ -15,19 +15,13 @@
 
  */
 
-//  var MongoClient = require('mongodb').MongoClient;
-// var assert = require('assert');
-// var ObjectId = require('mongodb').ObjectID;
-// var url = 'mongodb://ds011409.mlab.com:11409/educhat';
-
 var express = require("express")
   , app = express()
   , http = require("http").createServer(app)
   , bodyParser = require("body-parser")
   , io = require("socket.io").listen(http)
   , _ = require("underscore")
-  , mongoose = require('mongoose')
-  , db = require('mongodb').Db;
+  , mongoose = require('mongoose');
 
 mongoose.connect('mongodb://ds011409.mlab.com:11409/educhat');
 
@@ -72,12 +66,8 @@ var Class_schema = mongoose.Schema({
   admin: String 
 });
 
-<<<<<<< HEAD
 var Chat = mongoose.model('Message', Chat_schema);
 var Class = mongoose.model('Class', Class_schema);
-
-=======
->>>>>>> 1489e83b578e75a5e87b3f2407a080d660c05d94
 /* Server config */
 
 //Server's IP address
@@ -107,7 +97,6 @@ app.get("/", function(request, response) {
 
 });
 
-<<<<<<< HEAD
  function newRoom(){
       var room = $('#class').val();
       var department = $('#depo').val();
@@ -131,8 +120,6 @@ app.get("/room/:id", function(request,response){
   console.log(request.params.id)
   response.end();
 });
-
-
 
 //POST method to create a chat message
 app.post("/message", function(request, response) {
@@ -178,41 +165,6 @@ app.post("/message", function(request, response) {
   response.json(200, {message: "Message received"});
 
 });
-
-/* Socket.IO events */
-// io.on("connection", function(socket){
-
-  /*
-   When a new user connects to our server, we expect an event called "newUser"
-   and then we'll emit an event called "newConnection" with a list of all
-   participants to all connected clients
-   */
-  // socket.on("newUser", function(data) {
-  //   participants.push({id: data.id, name: data.name});
-  //   io.sockets.emit("newConnection", {participants: participants});
-  // });
-
-  /*
-   When a user changes his name, we are expecting an event called "nameChange"
-   and then we'll emit an event called "nameChanged" to all participants with
-   the id and new name of the user who emitted the original message
-   */
-  // socket.on("nameChange", function(data) {
-  //   _.findWhere(participants, {id: socket.id}).name = data.name;
-  //   io.sockets.emit("nameChanged", {id: data.id, name: data.name});
-  // });
-
-  /*
-   When a client disconnects from the server, the event "disconnect" is automatically
-   captured by the server. It will then emit an event called "userDisconnected" to
-   all participants with the id of the client that disconnected
-   */
-//   socket.on("disconnect", function() {
-//     participants = _.without(participants,_.findWhere(participants, {id: socket.id}));
-//     io.sockets.emit("userDisconnected", {id: socket.id, sender:"system"});
-//   });
-
-// });
 
 //Start the http server at port and IP defined before
 http.listen(app.get("port"), app.get("ipaddr"), function() {
