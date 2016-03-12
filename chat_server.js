@@ -126,7 +126,6 @@ app.get("/", function(request, response) {
         })
       });
    }
-=======
 /** ROOMS */
 app.get("/room/:id", function(request,response){
   console.log(request.params.id)
@@ -134,7 +133,6 @@ app.get("/room/:id", function(request,response){
 });
 
 
->>>>>>> 1489e83b578e75a5e87b3f2407a080d660c05d94
 
 //POST method to create a chat message
 app.post("/message", function(request, response) {
