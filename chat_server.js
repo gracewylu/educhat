@@ -21,9 +21,12 @@ var express = require("express")
   , bodyParser = require("body-parser")
   , io = require("socket.io").listen(http)
   , _ = require("underscore")
-  , mongoose = require('mongoose');
+  , mongoose = require('mongoose')
+  , passport = require('passport');
 
 mongoose.connect('mongodb://educhat:educhatpass@ds011409.mlab.com:11409/educhat');
+
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 //if there is an error with mongoose connection 
 mongoose.connection.on('error', function(err){
@@ -116,11 +119,7 @@ app.post("/room/:id", function(request,response){
   var newClass = new Class(class_data);
 
   newClass.save(function(err, savedClass){
-    console.log(savedClass);
-
     if(err) throw err;
-
-    console.log(savedClass);
 
   });
 
@@ -130,6 +129,10 @@ app.post("/room/:id", function(request,response){
 //lists room on side-nav 
 app.get("/room/:id", function(request, response){
 
+});
+
+  console.log(request.params.id)
+  response.end();
 });
 
 //POST method to create a chat message
@@ -165,14 +168,44 @@ app.post("/message", function(request, response) {
   newChat.save(function(err, savedChat){
     if(err) throw err;
 
-    console.log(savedChat);
-
   });
 
   //Looks good, let the client know
   response.json(200, {message: "Message received"});
 
 });
+
+/*** Facebook */
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+passport.use(new FacebookStrategy({
+    clientID: '947369812024794',
+    clientSecret: '404d053f28e3c0dc58ab7da91fdd5a4a',
+    callbackURL: "http://localhost:8080/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
+
+/*** Facebook */
+app.get('/auth/facebook',
+  passport.authenticate('facebook'));
+ 
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home. 
+    console.log("Authenticated");
+    res.redirect('/');
+  });
 
 //Start the http server at port and IP defined before
 http.listen(app.get("port"), app.get("ipaddr"), function() {
