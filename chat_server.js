@@ -42,6 +42,8 @@ app.set("port", 8080);
 //Specify the views folder
 app.set("views", __dirname + "/views");
 
+app.set("view engine", "jade");
+
 //Specify where the static content is
 app.use(express.static("public", __dirname + "/public"));
 
@@ -54,7 +56,7 @@ app.use(bodyParser.json());
 app.get("/", function(request, response) {
 
   //Render the view called "index"
-  response.render("chat");
+  response.render("index");
 
 });
 
@@ -72,6 +74,9 @@ app.post("/message", function(request, response) {
   //We also expect the sender's name with the message
   var name = request.body.name;
 
+  //logs message to console for now 
+  console.log("message: " + message);
+  
   //Let our chatroom know there was a new message
   io.sockets.emit("incomingMessage", {message: message, name: name});
 
@@ -81,39 +86,39 @@ app.post("/message", function(request, response) {
 });
 
 /* Socket.IO events */
-io.on("connection", function(socket){
+// io.on("connection", function(socket){
 
   /*
    When a new user connects to our server, we expect an event called "newUser"
    and then we'll emit an event called "newConnection" with a list of all
    participants to all connected clients
    */
-  socket.on("newUser", function(data) {
-    participants.push({id: data.id, name: data.name});
-    io.sockets.emit("newConnection", {participants: participants});
-  });
+  // socket.on("newUser", function(data) {
+  //   participants.push({id: data.id, name: data.name});
+  //   io.sockets.emit("newConnection", {participants: participants});
+  // });
 
   /*
    When a user changes his name, we are expecting an event called "nameChange"
    and then we'll emit an event called "nameChanged" to all participants with
    the id and new name of the user who emitted the original message
    */
-  socket.on("nameChange", function(data) {
-    _.findWhere(participants, {id: socket.id}).name = data.name;
-    io.sockets.emit("nameChanged", {id: data.id, name: data.name});
-  });
+  // socket.on("nameChange", function(data) {
+  //   _.findWhere(participants, {id: socket.id}).name = data.name;
+  //   io.sockets.emit("nameChanged", {id: data.id, name: data.name});
+  // });
 
   /*
    When a client disconnects from the server, the event "disconnect" is automatically
    captured by the server. It will then emit an event called "userDisconnected" to
    all participants with the id of the client that disconnected
    */
-  socket.on("disconnect", function() {
-    participants = _.without(participants,_.findWhere(participants, {id: socket.id}));
-    io.sockets.emit("userDisconnected", {id: socket.id, sender:"system"});
-  });
+//   socket.on("disconnect", function() {
+//     participants = _.without(participants,_.findWhere(participants, {id: socket.id}));
+//     io.sockets.emit("userDisconnected", {id: socket.id, sender:"system"});
+//   });
 
-});
+// });
 
 //Start the http server at port and IP defined before
 http.listen(app.get("port"), app.get("ipaddr"), function() {

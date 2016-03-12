@@ -4,10 +4,21 @@ var rooms = document.getElementById('slide-out');
 
 function addRoom(){
 
-	//TODO: make sure to add the room to the database as well 
-	var room_name = document.getElementById('room_name').value;
+   //TODO: make sure to add the room to the database as well 
+   var room_name = document.getElementById('room_name').value;
 
-	$('div#room_links').append('<li><a href="#!" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
+   $('div#room_links').append('<li><a href="?room_name=' + room_name+ '" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    url = url.toLowerCase(); // This is just to avoid case sensitiveness  
+    name = name.replace(/[\[\]]/g, "\\$&").toLowerCase();// This is just to avoid case sensitiveness for query parameter name
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
 document.getElementById('add_room_button').addEventListener("click", addRoom, false);
@@ -31,7 +42,7 @@ function init(){
 
    socket.on('incomingMessage', function(data){
       var message = data.message; 
-      $('#messages').prepend('<b>' + message + '<hr/>');
+      $('#messages').append('<b>' + message + '<hr/>');
    });
 
    socket.on('error', function(reason){
@@ -48,7 +59,7 @@ function init(){
          data: JSON.stringify({message: outgoingMessage})
       });
    }
-   function messageinputKeyDown(event){
+   function messageInputKeyDown(event){
       if(event.which == 13){
          event.preventDefault();
          if($('#message_input').val().trim().length <= 0){
@@ -58,24 +69,19 @@ function init(){
          $('#message_input').val('');
       }
    }
+   function messageInputKeyUp(){
+      var messageValue = $('#message_input').val();
+      $('#send').attr('disabled', (messageValue.trim()).length > 0 ? false : true);
+   }
 
    $('#message_input').on('keydown', messageInputKeyDown);
    $('#message_input').on('keyup', messageInputKeyUp);
    $('#send').on('click', sendMessage);
 }
-var socketio = io.connect();
-      socketio.on("message_to_client",function(data) {
-         //Append an HR thematic break and the escaped HTML of the new message
-         document.getElementById("chatlog").appendChild(document.createElement("hr"));
-         document.getElementById("chatlog").appendChild(document.createTextNode(data['message']));
-      });
- 
-      function sendMessage(){
-         var msg = document.getElementById("message_input").value;
-         socketio.emit("message_to_server", {message:msg});
-      }
- 
- 
+
+var room_name = getParameterByName('room_name');
+document.getElementById('class_name').innerHTML = '<h1>' + room_name + '</h1>';
 $(document).ready(function(){
-	$('.modal-trigger').leanModal(); //allows modals to show
+   $('.modal-trigger').leanModal(); //allows modals to show
+   init();
 });
