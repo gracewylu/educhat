@@ -23,7 +23,7 @@ var express = require("express")
   , _ = require("underscore")
   , mongoose = require('mongoose');
 
-mongoose.connect('mongodb://ds011409.mlab.com:11409/educhat');
+mongoose.connect('mongodb://educhat:educhatpass@ds011409.mlab.com:11409/educhat');
 
 //if there is an error with mongoose connection 
 mongoose.connection.on('error', function(err){
@@ -56,14 +56,14 @@ var Chat_schema = mongoose.Schema({
   room: String
 });
 
-var ObjectId = mongoose.Schema.Types.ObjectId;
+//var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var Class_schema = mongoose.Schema({
   class_name: String, 
-  class_id: ObjectId, 
-  class_section: String, 
+  class_id: Number, 
   department: String, 
-  admin: String 
+  admin: String, 
+  admin_password: String 
 });
 
 var Chat = mongoose.model('Message', Chat_schema);
@@ -97,28 +97,39 @@ app.get("/", function(request, response) {
 
 });
 
- function newRoom(){
-      var room = $('#class').val();
-      var department = $('#depo').val();
-      var adminstrator = $('#admin').val();
-      var pass = $('#password').val();
-      $.ajax({
-         url: '/newRoom', 
-         type: 'POST', 
-         contentType: 'application/json', 
-         dataType: 'json', 
-         data: JSON.stringify({
-             class: room, 
-             depo: department, 
-             admin: adminstrator,
-             password: pass
-        })
-      });
-   }
+//adds new room/chatroom to the database
 /** ROOMS */
-app.get("/room/:id", function(request,response){
-  console.log(request.params.id)
-  response.end();
+app.post("/room/:id", function(request,response){
+  var room = request.body.room;
+  var dept = request.body.dept; 
+  var admin = request.body.admin; 
+  var password = request.body.password;
+
+  var class_data = {
+    class_name: room,
+    class_id: 3, 
+    department: dept, 
+    admin: admin, 
+    admin_password: admin 
+  }
+
+  var newClass = new Class(class_data);
+
+  newClass.save(function(err, savedClass){
+    console.log(savedClass);
+
+    if(err) throw err;
+
+    console.log(savedClass);
+
+  });
+
+  response.json(200, {success: "Success!"});
+});
+
+//lists room on side-nav 
+app.get("/room/:id", function(request, response){
+
 });
 
 //POST method to create a chat message
@@ -139,7 +150,7 @@ app.post("/message", function(request, response) {
   console.log("message: " + message);
   
   //Let our chatroom know there was a new message
-  io.sockets.emit("incomingMessage", {message: message, name: name});
+  io.sockets.emit("incomingMessage", {message: message});
 
   //sending chats to database 
   var message_data = {
@@ -151,10 +162,7 @@ app.post("/message", function(request, response) {
 
   var newChat = new Chat(message_data);
 
-  console.log(newChat);
   newChat.save(function(err, savedChat){
-    console.log(err);
-
     if(err) throw err;
 
     console.log(savedChat);

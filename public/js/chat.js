@@ -2,14 +2,6 @@ $(".button-collapse").sideNav(); //instantiates sidenav
 
 var rooms = document.getElementById('slide-out');
 
-function addRoom(){
-
-   //TODO: make sure to add the room to the database as well 
-   var room_name = document.getElementById('class').value;
-
-   $('div#room_links').append('<li><a href="#!" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
-}
-
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     url = url.toLowerCase(); // This is just to avoid case sensitiveness  
@@ -21,7 +13,6 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-document.getElementById('add_room_button').addEventListener("click", addRoom, false);
 
 function init(){
    var serverBaseUrl = document.domain;
@@ -45,9 +36,36 @@ function init(){
       $('#messages').append('<b>' + message + '<hr/>');
    });
 
+   socket.on('addedRoom', function(data){
+      var room = data.room; 
+      var dept = data.dept; 
+      var admin = data.admin; 
+      var password = data.password;
+   })
    socket.on('error', function(reason){
       console.log('Unable to connect to server', reason);
    });
+
+   function addRoom(){
+      var room_name = $('#class').val();
+      var department = $('#dept').val();
+      var adminstrator = $('#admin').val();
+      var pass = $('#password').val();
+      $.ajax({
+         url: '/room/'+room_name, 
+         type: 'POST', 
+         contentType: 'application/json', 
+         dataType: 'json', 
+         data: JSON.stringify({
+             room: room_name, 
+             dept: department, 
+             admin: adminstrator,
+             password: pass})
+      }).success(function(){
+         console.log("On success");
+      });
+      $('div#room_links').append('<li><a href="#!" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
+   }
 
    function sendMessage(){
       var outgoingMessage = $('#message_input').val();
@@ -77,7 +95,7 @@ function init(){
    $('#message_input').on('keydown', messageInputKeyDown);
    $('#message_input').on('keyup', messageInputKeyUp);
    $('#send').on('click', sendMessage);
-   $('#add_room_button').on('click', newRoom);
+   $('#add_room_button').on('click', addRoom);
 }
 
 var room_name = getParameterByName('room_name');
