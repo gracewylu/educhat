@@ -27,7 +27,10 @@ var express = require("express")
   , io = require("socket.io").listen(http)
   , _ = require("underscore")
   , mongoose = require('mongoose')
+  , passport = require('passport')
   , db = require('mongodb').Db;
+
+  var FacebookStrategy = require('passport-facebook').Strategy;
 
 mongoose.connect('mongodb://ds011409.mlab.com:11409/educhat');
 
@@ -147,11 +150,18 @@ app.post("/message", function(request, response) {
 });
 
 
-/***
+/*** Facebook */
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 passport.use(new FacebookStrategy({
-    clientID: FACEBOOK_APP_ID,
-    clientSecret: FACEBOOK_APP_SECRET,
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
+    clientID: '947369812024794',
+    clientSecret: '404d053f28e3c0dc58ab7da91fdd5a4a',
+    callbackURL: "http://localhost:8080/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
     User.findOrCreate({ facebookId: profile.id }, function (err, user) {
@@ -159,7 +169,18 @@ passport.use(new FacebookStrategy({
     });
   }
 ));
-*/
+
+/*** Facebook */
+app.get('/auth/facebook',
+  passport.authenticate('facebook'));
+ 
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home. 
+    console.log("Authenticated");
+    res.redirect('/');
+  });
 
 /* Socket.IO events */
 // io.on("connection", function(socket){
