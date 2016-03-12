@@ -21,17 +21,17 @@
     "npm": ">= 1.0.0"
   },
   "dependencies": {
-    "mysql": "~2.10.2",
+    "body-parser": "1.4.3",
     "express": "4.6.1",
     "jade": "1.4.2",
+    "mongodb": "^2.1.7",
+    "mongoose": "~4.2.7",
+    "mysql": "~2.10.2",
     "socket.io": "1.0.6",
-    "underscore": "1.6.0",
-    "body-parser": "1.4.3", 
-    "mongoose": "~4.2.7"
+    "underscore": "1.6.0"
   },
   "devDependencies": {},
   "bundleDependencies": [],
   "license": "MIT",
   "main": "chat_server.js"
 }
-
