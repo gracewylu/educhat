@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Create Account</title>
+
+		<!-- jQuery CDN -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<!-- End jQuery CDN -->
+		
+	</head>
+
+	<body>
+		<header>
+			<h1>Create Account!</h1>
+		</header>
+		<main>
+			<form id="authentication" formmethod="post" formaction="">
+				<fieldset>	
+<!-- First -->		<p id="firstName">First Name:</p>
+						<p><input id="firstName" type="text" name="firstName" placeholder="First Name" autofocus="autofocus" /></p>
+<!-- Last -->		<p id="lastName">Last Name:</p>
+						<p><input id="lastName:" type="text" name="lastName" placeholder="Last Name" /></p>
+<!-- Major -->		<p id="Major">Major:</p>
+						<p>
+							 <select>
+								<option value="business">Business</option>
+								<option value="engineering">Engineering</option>
+								<option value="nursing">Nursing</option>
+							</select> 
+						</p>
+<!-- User -->		<p id="usernameLabel">Username:</p>
+						<p><input id="username" type="text" name="username" placeholder="username" /></p>
+						<div id="feedback_user"></div>
+<!-- Email -->		<p id="emailLabel">.edu Email:</p>
+						<p><input id="userEmail" type="text" name="email" placeholder=".edu email" /></p>
+						<div id="feedback_email"></div>
+<!-- Pass -->		<p id="userPasswordLabel">Password:</p>   
+						<p><input id="userPassword" type="password" name="password" placeholder="password" /></p>
+						<div id="feedback_pass"></div>
+<!-- Confirm -->	<p id="confirmPasswordLabel">Confirm:</p>   
+						<p><input id="confirmPassword" type="password" name="confirm" placeholder="confirm password" /></p>
+						<div id="feedback_confirm"></div>
+
+<!-- Submit -->		<br><input type="submit" id="submitButton" value="Submit">
+				</fieldset>
+			</form>
+		</main>
+		<footer>
+		
+		</footer>
+		
+		<script src="../js/CreateAccount.js"></script> <!-- createAccount -->
+	</body>
+
+</html>
