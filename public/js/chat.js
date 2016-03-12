@@ -1,8 +1,3 @@
-// var MongoClient = require('mongodb').MongoClient;
-// var assert = require('assert');
-// var ObjectID = require('mongodb').ObjectID;
-// var url = "mongodb://ds011409.mlab.com:11409/educhat";
-
 $(".button-collapse").sideNav(); //instantiates sidenav
 
 var rooms = document.getElementById('slide-out');
@@ -12,7 +7,7 @@ function addRoom(){
    //TODO: make sure to add the room to the database as well 
    var room_name = document.getElementById('class').value;
 
-   $('div#room_links').append('<li><a href="?room_name=' + room_name+ '" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
+   $('div#room_links').append('<li><a href="#!" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
 }
 
 function getParameterByName(name, url) {
@@ -26,9 +21,6 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-// var findClasses = function(db, callback){
-   
-// }
 document.getElementById('add_room_button').addEventListener("click", addRoom, false);
 
 function init(){
@@ -56,25 +48,6 @@ function init(){
    socket.on('error', function(reason){
       console.log('Unable to connect to server', reason);
    });
-
-    function newRoom(){
-      var room = $('#class').val();
-      var department = $('#depo').val();
-      var adminstrator = $('#admin').val();
-      var pass = $('#password').val();
-      $.ajax({
-         url: '/newRoom', 
-         type: 'POST', 
-         contentType: 'application/json', 
-         dataType: 'json', 
-         data: JSON.stringify({
-             class: room, 
-             depo: department, 
-             admin: adminstrator,
-             password: pass
-        })
-      });
-   }
 
    function sendMessage(){
       var outgoingMessage = $('#message_input').val();

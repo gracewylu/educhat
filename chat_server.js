@@ -50,7 +50,7 @@ var Class_schema = mongoose.Schema({
 });
 
 var Chat = mongoose.model('Message', Chat_schema);
-
+var Class = mongoose.model('Class', Class_schema);
 
 /* Server config */
 
@@ -80,6 +80,25 @@ app.get("/", function(request, response) {
   response.render("index");
 
 });
+
+ function newRoom(){
+      var room = $('#class').val();
+      var department = $('#depo').val();
+      var adminstrator = $('#admin').val();
+      var pass = $('#password').val();
+      $.ajax({
+         url: '/newRoom', 
+         type: 'POST', 
+         contentType: 'application/json', 
+         dataType: 'json', 
+         data: JSON.stringify({
+             class: room, 
+             depo: department, 
+             admin: adminstrator,
+             password: pass
+        })
+      });
+   }
 
 //POST method to create a chat message
 app.post("/message", function(request, response) {
@@ -125,43 +144,7 @@ app.post("/message", function(request, response) {
 
 });
 
-
-/* Socket.IO events */
-// io.on("connection", function(socket){
-
-  /*
-   When a new user connects to our server, we expect an event called "newUser"
-   and then we'll emit an event called "newConnection" with a list of all
-   participants to all connected clients
-   */
-  // socket.on("newUser", function(data) {
-  //   participants.push({id: data.id, name: data.name});
-  //   io.sockets.emit("newConnection", {participants: participants});
-  // });
-
-  /*
-   When a user changes his name, we are expecting an event called "nameChange"
-   and then we'll emit an event called "nameChanged" to all participants with
-   the id and new name of the user who emitted the original message
-   */
-  // socket.on("nameChange", function(data) {
-  //   _.findWhere(participants, {id: socket.id}).name = data.name;
-  //   io.sockets.emit("nameChanged", {id: data.id, name: data.name});
-  // });
-
-  /*
-   When a client disconnects from the server, the event "disconnect" is automatically
-   captured by the server. It will then emit an event called "userDisconnected" to
-   all participants with the id of the client that disconnected
-   */
-//   socket.on("disconnect", function() {
-//     participants = _.without(participants,_.findWhere(participants, {id: socket.id}));
-//     io.sockets.emit("userDisconnected", {id: socket.id, sender:"system"});
-//   });
-
-// });
-=======
->>>>>>> cfaa307d34293a064191c15206053d36e2645e59
+var newClass = new Class();
 
 //Start the http server at port and IP defined before
 http.listen(app.get("port"), app.get("ipaddr"), function() {
