@@ -31,15 +31,28 @@
 	<div id="addroom_modal" class="modal">
 		<div class="modal-content">
 			<h4 class="center">Add a room</h4>
-			<form class="col s12">
+			<form class="col s12" method="POST" action="/newRoom">
 			<div class="row">
 				<div class="input-field col l7 offset-l3 m6 s12 ">
-					<input id="room_name" type="text" class="validate"/>
-					<label for="room_name">Room Name</label>
-				</div>
+					<input id="class" name="class" type="text" class="validate"/>
+					<label for="class">Class</label>
+                </div>
+				<div class="input-field col l7 offset-l3 m6 s12 ">
+                    <input id="depo" name="depo" type="text" class="validate"/>
+					<label for="depo">Department</label>
+                </div>
+				<div class="input-field col l7 offset-l3 m6 s12 ">
+                    <input id="admin" name="admin" type="text" class="validate"/>
+					<label for="admin">Admin</label>
+                </div>
+				<div class="input-field col l7 offset-l3 m6 s12 ">
+                    <input id="password" name="password" type="text" class="validate"/>
+					<label for="password">Admin Password</label>
+                </div>
 			</div>
 			<div class="row center-align">
-				<div id="add_room_button" class="btn waves-effect waves-light custom-button grey darken-4">Add</div>
+                
+				<div type="submit" id="add_room_button" class="btn waves-effect waves-light custom-button grey darken-4">Add</div>
 			</div>
 		</form>
 		</div>

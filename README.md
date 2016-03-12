@@ -8,9 +8,8 @@ Developers: Michael Rhodes, Erik Verduin, Suprith Aireddy, Ichi Lee, Grace Lu
 URL: https://chatedu.herokuapp.com/
 
 ## Technology Stack
-```
-npm install socket.io
-```
+### MongoDB
+### Express
 Using Express Server app.js
 ```
 var app = require('express')();
@@ -28,5 +27,29 @@ io.on('connection', function (socket) {
   socket.on('my other event', function (data) {
     console.log(data);
   });
+});
+```
+### Angular.js
+HTML enhanced for web apps http://angularjs.org
+```
+npm install angular
+```
+### Node.js
+Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient. Node.js' package ecosystem, npm, is the largest ecosystem of open source libraries in the world.
+```
+sudo npm install npm -g
+```
+### Socket.io
+```
+npm install socket.io
+```
+```
+var io = require('socket.io')(80);
+var cfg = require('./config.json');
+var tw = require('node-tweet-stream')(cfg);
+tw.track('socket.io');
+tw.track('javascript');
+tw.on('tweet', function(tweet){
+  io.emit('tweet', tweet);
 });
 ```
