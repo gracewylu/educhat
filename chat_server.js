@@ -69,8 +69,15 @@ var Class_schema = mongoose.Schema({
   admin_password: String 
 });
 
+var User_schema = mongoose.Schema({
+  fbID: Number, 
+  username: String, 
+  provider: String 
+});
+
 var Chat = mongoose.model('Message', Chat_schema);
 var Class = mongoose.model('Class', Class_schema);
+var User = mongoose.model('User', User_schema);
 /* Server config */
 
 //Server's IP address
@@ -128,9 +135,6 @@ app.post("/room/:id", function(request,response){
 
 //lists room on side-nav 
 app.get("/room/:id", function(request, response){
-
-});
-
   console.log(request.params.id)
   response.end();
 });
