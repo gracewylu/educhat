@@ -39,6 +39,16 @@ var Chat_schema = mongoose.Schema({
   room: String
 });
 
+var ObjectId = mongoose.Schema.Types.ObjectId;
+
+var Class_schema = mongoose.Schema({
+  class_name: String, 
+  class_id: ObjectId, 
+  class_section: String, 
+  department: String, 
+  admin: String 
+});
+
 var Chat = mongoose.model('Message', Chat_schema);
 
 
@@ -95,8 +105,8 @@ app.post("/message", function(request, response) {
   var message_data = {
     created: new Date(),
     content: message, 
-    username: "test", 
-    room: "CS101"
+    username: "test", //grab the username
+    room: "CS101" //grab room you're in 
   }
 
   var newChat = new Chat(message_data);
