@@ -15,21 +15,15 @@
 
  */
 
-//  var MongoClient = require('mongodb').MongoClient;
-// var assert = require('assert');
-// var ObjectId = require('mongodb').ObjectID;
-// var url = 'mongodb://ds011409.mlab.com:11409/educhat';
-
 var express = require("express")
   , app = express()
   , http = require("http").createServer(app)
   , bodyParser = require("body-parser")
   , io = require("socket.io").listen(http)
   , _ = require("underscore")
-  , mongoose = require('mongoose')
-  , db = require('mongodb').Db;
+  , mongoose = require('mongoose');
 
-mongoose.connect('mongodb://ds011409.mlab.com:11409/educhat');
+mongoose.connect('mongodb://educhat:educhatpass@ds011409.mlab.com:11409/educhat');
 
 //if there is an error with mongoose connection 
 mongoose.connection.on('error', function(err){
