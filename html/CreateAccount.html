@@ -2,7 +2,12 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Create Account</title>	
+		<title>Create Account</title>
+
+		<!-- jQuery CDN -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+		<!-- End jQuery CDN -->
+		
 	</head>
 
 	<body>
@@ -10,7 +15,7 @@
 			<h1>Create Account!</h1>
 		</header>
 		<main>
-			<form>
+			<form id="authentication" formmethod="post" formaction="">
 				<fieldset>	
 <!-- First -->		<p id="firstName">First Name:</p>
 						<p><input id="firstName" type="text" name="firstName" placeholder="First Name" autofocus="autofocus" /></p>
@@ -44,6 +49,8 @@
 		<footer>
 		
 		</footer>
+		
+		<script src="../js/CreateAccount.js"></script> <!-- createAccount -->
 	</body>
 
 </html>
