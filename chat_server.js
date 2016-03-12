@@ -132,13 +132,9 @@ app.post("/message", function(request, response) {
 
   var newChat = new Chat(message_data);
 
-  console.log(newChat);
   newChat.save(function(err, savedChat){
-    console.log(err);
 
     if(err) throw err;
-
-    console.log(savedChat);
 
   });
 
