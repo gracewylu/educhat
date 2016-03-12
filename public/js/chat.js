@@ -48,7 +48,7 @@ function init(){
 
    function addRoom(){
       var room_name = $('#class').val();
-      var department = $('#dept').val();
+      var department = $('#departments option:selected').val();
       var adminstrator = $('#admin').val();
       var pass = $('#password').val();
       $.ajax({
@@ -101,6 +101,7 @@ function init(){
 var room_name = getParameterByName('room_name');
 document.getElementById('class_name').innerHTML = '<h1>' + room_name + '</h1>';
 $(document).ready(function(){
+    $("select").material_select();
    $('.modal-trigger').leanModal(); //allows modals to show
    init();
 });
