@@ -101,7 +101,7 @@ app.use(bodyParser.json());
 
 //Handle route "GET /", as in "http://localhost:8080/"
 app.get("/", function(request, response) {
-
+  
   //Render the view called "index"
   response.render("index");
 
@@ -135,10 +135,8 @@ app.post("/room/:id", function(request,response){
 
 //lists room on side-nav 
 app.get("/room/:id", function(request, response){
-
-});
-
-  console.log(request.params.id)
+  
+  console.log(request.params.id);
   response.end();
 });
 
