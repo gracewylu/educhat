@@ -48,7 +48,7 @@ function init(){
 
    function addRoom(){
       var room_name = $('#class').val();
-      var department = $('#dept').val();
+      var department = $('#departments option:selected').val();
       var adminstrator = $('#admin').val();
       var pass = $('#password').val();
       $.ajax({
