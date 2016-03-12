@@ -4,3 +4,5 @@ This is a website that lets you talk to people in your college classes specifica
 This is a project for SIUE eHacks 
 
 Developers: Michael Rhodes, Erik Verduin, Suprith Aireddy, Ichi Lee, Grace Lu 
+
+URL: https://chatedu.herokuapp.com/
