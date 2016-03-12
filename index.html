@@ -16,7 +16,14 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
 
-<link rel="stylesheet" type="text/css" href="style.css">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="indexStyle.css">
+
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
 
 </head>
 <body>
@@ -26,85 +33,88 @@
       <div class="nav-wrapper red darken-4">
         <a href="#!" class="brand-logo center">eduChat</a>
         <ul class="right hide-on-med-and-down">
-          <li><a href="sass.html">Log In</a></li>
-          <li><a href="badges.html">Create Account</a></li>
+          <li><a href="LogIn.html">Log In</a></li>
+          <li><a href="CreateAccount.html">Create Account</a></li>
         </ul>
       </div>
     </nav>
   </div>
 
-  <div>
-  	<img id="bgPic" src="pictures/frontPageBackground.jpg">
+
+  <div id="myCarousel" class="carousel slide">
+			<ol class="carousel-indicators">
+				<li data-target = "myCarousel" data-slide-to = "0"></li>
+				<li data-target = "myCarousel" data-slide-to = "1"></li>
+				<li data-target = "myCarousel" data-slide-to = "2" ></li>
+			</ol>
+
+			<div class="carousel-inner">
+				<div class="item active"> 
+					<img src="pictures/quad5.jpg" class= "img-responsive">
+				</div>
+				<div class="item"> 
+					<img src="pictures/c3.jpg" class= "img-responsive">
+				</div>
+				<div class="item"> 
+					<img src="pictures/frontPageBackground1.jpg" class= "img-responsive">
+				</div>
+			</div>
+
+			<a  class = "carousel-control left"href="#myCarousel" data-slide ="prev"> <span class="icon-prev"></span></a>
+
+			<a  class = "carousel-control right"href="#myCarousel" data-slide ="next"> <span class="icon-next"></span></a>
+
   </div>
 
+		  <div class="row">
 
+			<div class="col s6 center buttonC">
+				<a class="waves-effect waves-light btn-large">Log In</a>
+			</div>
+			<div class="col s6 center buttonC">
+				<a class="waves-effect waves-light btn-large">Create Account</a>
+			</div>
 
+		</div>
 
+      <div class="row jumbotron">
+        <div class="col s12 m4">
+        	<h1 class= "center">Step 1</h1>
+            <h2 class="center light-blue-text"><i class="material-icons">email</i></h2>
+            <h5 class="center">Create an Account</h5>
 
+            <p class="light center">Sign in using an edu email to verify that you are a studnt taking a college class at the university. This ensures that everyone in the chat is in the same university as you.</p>
+        </div>
 
+        <div class="col s12 m4">
+          	<h1 class= "center">Step 2</h1>
+            <h2 class="center light-blue-text"><i class="material-icons">settings</i></h2>
+            <h5 class="center">Pick your classes</h5>
+
+            <p class="light center">By picking your classes, you can then choose the class you want to talk to others in. This chat is anonymous so the messages are sent by random people in the same class as you. </p>
+          
+        </div>
+
+        <div class="col s12 m4">
+          	<h1 class= "center">Step 3</h1>
+            <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
+            <h5 class="center">Meet New Students</h5>
+
+            <p class="light center">By talking anonymously there is no awkward conversations. This allows you to collaborate with other classmates to get homework answers and ultimately earn a better grade.</p>
+          
+        </div>
+      </div>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('.carousel').carousel({
+				interval: 3000
+			});
+
+			$('.carousel').carousel('cycle');
+		});
+	</script>  
 
 </body>
 </html>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-	<div class="container">
-
-<header class="site-header">
-	<a href="#0" class="logo">eduChat</a>
-		<nav class="site-nav">
-			<ul>
-				<li class="active"><a href="#0">Log in</a></li>
-				<li><a href="#0">Create Account</a></li>
-				<li><a href="#0">About eduChat</a></li>
-			</ul>
-		</nav>
-	<div class="account-actions">
-	<div class="account-dropdown">
-⚙
-	<ul>
-		<li>Yoursdvdsvsd Account</li>
-	</ul>
-	</div>
-		<a href="#0" class="sign-out-link">Sign Out</a>
-	</div>
-
-</header>
-
-
-
-	<h1 class="text-center">eduChat</h1>
-
-	<div class= "jumbotron">
-
-		<button class="btn btn-primary btn-lg">Login</button>
-		<button class="btn btn-danger btn-lg">Create Account</button>
-
-	</div>
-</div>
--->
