@@ -14,22 +14,33 @@
  rest should be named after its module name.
 
  */
+
 var express = require("express")
   , app = express()
   , http = require("http").createServer(app)
   , bodyParser = require("body-parser")
   , io = require("socket.io").listen(http)
-  , _ = require("underscore");
+  , _ = require("underscore")
+  , mongoose = require('mongoose');
 
-/*
- The list of participants in our chatroom.
- The format of each participant will be:
- {
- id: "sessionId",
- name: "participantName"
- }
- */
+mongoose.connect('mongodb://educhat:educhatpass@ds011409.mlab.com:11409/educhat');
+
+//if there is an error with mongoose connection 
+mongoose.connection.on('error', function(err){
+  console.log("Issue connecting to database");
+});
+
 var participants = [];
+
+var Chat_schema = mongoose.Schema({
+  created: Date, 
+  content: String, 
+  username: String, 
+  room: String
+});
+
+var Chat = mongoose.model('Message', Chat_schema);
+
 
 /* Server config */
 
@@ -80,16 +91,30 @@ app.post("/message", function(request, response) {
   //Let our chatroom know there was a new message
   io.sockets.emit("incomingMessage", {message: message, name: name});
 
+  //sending chats to database 
+  var message_data = {
+    created: new Date(),
+    content: message, 
+    username: "test", 
+    room: "CS101"
+  }
+
+  var newChat = new Chat(message_data);
+  console.log(newChat);
+  newChat.save(function(err, savedChat){
+    console.log(err);
+
+    if(err) throw err;
+
+    console.log(savedChat);
+
+  });
+
   //Looks good, let the client know
   response.json(200, {message: "Message received"});
 
 });
 
-app.post("/newRoom", function(request, response){
-    console.log(request.body.class);
-    console.log(request.body.depo);
-    console.log(request.body.admin);
-});
 
 /* Socket.IO events */
 // io.on("connection", function(socket){
@@ -125,6 +150,8 @@ app.post("/newRoom", function(request, response){
 //   });
 
 // });
+=======
+>>>>>>> cfaa307d34293a064191c15206053d36e2645e59
 
 //Start the http server at port and IP defined before
 http.listen(app.get("port"), app.get("ipaddr"), function() {

@@ -1,3 +1,8 @@
+// var MongoClient = require('mongodb').MongoClient;
+// var assert = require('assert');
+// var ObjectID = require('mongodb').ObjectID;
+// var url = "mongodb://ds011409.mlab.com:11409/educhat";
+
 $(".button-collapse").sideNav(); //instantiates sidenav
 
 var rooms = document.getElementById('slide-out');
@@ -21,6 +26,9 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
+// var findClasses = function(db, callback){
+   
+// }
 document.getElementById('add_room_button').addEventListener("click", addRoom, false);
 
 function init(){
