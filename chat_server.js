@@ -181,8 +181,7 @@ app.post("/message", function(request, response) {
 //   });
 
 // });
-=======
->>>>>>> cfaa307d34293a064191c15206053d36e2645e59
+
 
 //Start the http server at port and IP defined before
 http.listen(app.get("port"), app.get("ipaddr"), function() {
