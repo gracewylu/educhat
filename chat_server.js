@@ -14,19 +14,39 @@
  rest should be named after its module name.
 
  */
+
+//  var MongoClient = require('mongodb').MongoClient;
+// var assert = require('assert');
+// var ObjectId = require('mongodb').ObjectID;
+// var url = 'mongodb://ds011409.mlab.com:11409/educhat';
+
 var express = require("express")
   , app = express()
   , http = require("http").createServer(app)
   , bodyParser = require("body-parser")
   , io = require("socket.io").listen(http)
   , _ = require("underscore")
-  , mongoose = require('mongoose');
-
-// var mongoose = require('mongodb').MongoClient;
+  , mongoose = require('mongoose')
+  , db = require('mongodb').Db;
 
 mongoose.connect('mongodb://ds011409.mlab.com:11409/educhat');
 
+//if there is an error with mongoose connection 
+mongoose.connection.on('error', function(err){
+  console.log("Issue connecting to database");
+});
+
 var participants = [];
+
+var Chat_schema = mongoose.Schema({
+  created: Date, 
+  content: String, 
+  username: String, 
+  room: String
+});
+
+var Chat = mongoose.model('Message', Chat_schema);
+
 
 /* Server config */
 
@@ -77,15 +97,31 @@ app.post("/message", function(request, response) {
   //Let our chatroom know there was a new message
   io.sockets.emit("incomingMessage", {message: message, name: name});
 
+  //sending chats to database 
+  var message_data = {
+    created: new Date(),
+    content: message, 
+    username: "test", 
+    room: "CS101"
+  }
+
+  var newChat = new Chat(message_data);
+  console.log(newChat);
+  newChat.save(function(err, savedChat){
+    console.log(err);
+
+    if(err) throw err;
+
+    console.log(savedChat);
+
+  });
+
   //Looks good, let the client know
   response.json(200, {message: "Message received"});
 
 });
 
-//if there is an error 
-mongoose.connection.on('error', function(err){
-  console.log("Issue connecting to database");
-})
+
 //Start the http server at port and IP defined before
 http.listen(app.get("port"), app.get("ipaddr"), function() {
   console.log("Server up and running. Go to http://" + app.get("ipaddr") + ":" + app.get("port"));
