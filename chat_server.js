@@ -30,7 +30,7 @@ var express = require("express")
   , passport = require('passport')
   , db = require('mongodb').Db;
 
-  var FacebookStrategy = require('passport-facebook').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 mongoose.connect('mongodb://ds011409.mlab.com:11409/educhat');
 
@@ -97,12 +97,10 @@ app.get("/", function(request, response) {
 });
 
 /** ROOMS */
-app.get("/room/:id", function(request,response){
+app.post("/room/:id", function(request,response){
   console.log(request.params.id)
   response.end();
 });
-
-
 
 //POST method to create a chat message
 app.post("/message", function(request, response) {
