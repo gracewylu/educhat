@@ -1,0 +1,28 @@
+{
+  "name": "educhat",
+  "version": "0.0.0",
+  "description": "Chat client to allow university classes to talk together",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gracewylu/educhat"
+  },
+  "keywords": [
+    "chatedu",
+    "college",
+    "chat"
+  ],
+  "author": "Michael Rhodes, Suprith Aireddy, Ichi Lee, Erik Verduin, Grace Lu",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/gracewylu/educhat/issues"
+  },
+  "dependencies": {
+    "mysql": "~2.10.2",
+    "express": "~4.13.4",
+    "socket.io": "~1.4.5"
+  }
+}
