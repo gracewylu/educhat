@@ -135,9 +135,6 @@ app.post("/room/:id", function(request,response){
 
 //lists room on side-nav 
 app.get("/room/:id", function(request, response){
-
-});
-
   console.log(request.params.id)
   response.end();
 });
