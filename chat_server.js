@@ -15,20 +15,43 @@
 
  */
 
+//  var MongoClient = require('mongodb').MongoClient;
+// var assert = require('assert');
+// var ObjectId = require('mongodb').ObjectID;
+// var url = 'mongodb://ds011409.mlab.com:11409/educhat';
+
 var express = require("express")
   , app = express()
   , http = require("http").createServer(app)
   , bodyParser = require("body-parser")
   , io = require("socket.io").listen(http)
   , _ = require("underscore")
-  , mongoose = require('mongoose');
+  , mongoose = require('mongoose')
+  , db = require('mongodb').Db;
 
-mongoose.connect('mongodb://educhat:educhatpass@ds011409.mlab.com:11409/educhat');
+mongoose.connect('mongodb://ds011409.mlab.com:11409/educhat');
 
 //if there is an error with mongoose connection 
 mongoose.connection.on('error', function(err){
   console.log("Issue connecting to database");
 });
+// When successfully connected
+mongoose.connection.on('connected', function () {  
+  console.log('Mongoose default connection open to ');
+}); 
+
+// When the connection is disconnected
+mongoose.connection.on('disconnected', function () {  
+  console.log('Mongoose default connection disconnected'); 
+});
+
+// If the Node process ends, close the Mongoose connection 
+process.on('SIGINT', function() {  
+  mongoose.connection.close(function () { 
+    console.log('Mongoose default connection disconnected through app termination'); 
+    process.exit(0); 
+  }); 
+}); 
 
 var participants = [];
 
@@ -40,7 +63,6 @@ var Chat_schema = mongoose.Schema({
 });
 
 var Chat = mongoose.model('Message', Chat_schema);
-
 
 /* Server config */
 
@@ -71,6 +93,14 @@ app.get("/", function(request, response) {
 
 });
 
+/** ROOMS */
+app.get("/room/:id", function(request,response){
+  console.log(request.params.id)
+  response.end();
+});
+
+
+
 //POST method to create a chat message
 app.post("/message", function(request, response) {
 
@@ -100,6 +130,7 @@ app.post("/message", function(request, response) {
   }
 
   var newChat = new Chat(message_data);
+
   console.log(newChat);
   newChat.save(function(err, savedChat){
     console.log(err);
