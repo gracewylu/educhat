@@ -160,19 +160,20 @@ app.get("/rooms", function(request, response) {
 
 });
 
-app.post("/getroom", function(request, response){
-  var room = request.body.room_name;
-  console.log(room);
-  var PastMessages = mongoose.model('Message', Chat_schema);
-  
-  PastMessages.findOne({'room': room}, 'content', function(err, pastmessage){
-    if(err) return handleError(err);
-    console.log('%s has message %s', pastmessage.content )
+//-----------------------------------------------------
+//THIS IS A QUERY THAT FINDS ALL OF THE RESULTS WHERE IT MATCHES THE ROOM SENT THROUGH THE POST METHOD 
+//-----------------------------------------------------
+
+
+//gets list of classes/chatrooms to list in side nav-bar
+app.post("/getroom", function(request, response) {
+  Chat.find({'room': request.body.room_name}, function(err, results){
+    response.json(200, results);
   });
 
-
-
 });
+
+
 //POST method to create a chat message
 app.post("/message", function(request, response) {
 
@@ -198,7 +199,7 @@ app.post("/message", function(request, response) {
     created: new Date(),
     content: message, 
     username: "test", //grab the username
-    room: "CS101" //grab room you're in 
+    room: request.body.room
   }
 
   var newChat = new Chat(message_data);

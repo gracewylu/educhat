@@ -59,31 +59,16 @@ function init(){
       $('#addroom_modal').closeModal();
    }
 
-   //grabs room from url and sends it to server through POST
-   function enterRoom(event){
-      //gets room name from url 
-      var href = window.location.href;
-      var room_name = href.substr(href.lastIndexOf('#')+1);
-      console.log(room_name);
-      $.ajax({
-         url: '/getroom', 
-         type: 'POST', 
-         contenType: 'application/json', 
-         dataType: 'json', 
-         data: JSON.stringify({
-            room_name: room_name
-         })
-      });
-
-   }
    function sendMessage(){
       var outgoingMessage = $('#message_input').val();
+      var href = window.location.href;
+      var room_name = href.substr(href.lastIndexOf('#')+1);
       $.ajax({
          url: '/message', 
          type: 'POST', 
          contentType: 'application/json', 
          dataType: 'json', 
-         data: JSON.stringify({message: outgoingMessage, name: name})
+         data: JSON.stringify({message: outgoingMessage, name: name, room: room_name})
       });
    }
    function messageInputKeyDown(event){
@@ -105,7 +90,7 @@ function init(){
    $('#message_input').on('keyup', messageInputKeyUp);
    $('#send').on('click', sendMessage);
    $('#add_room_button').on('click', addRoom);
-   $('.sidenav-links').on('click', enterRoom);
+   $('.sidebar-links').on('click', enterRoom);
 }
 
    //list rooms in side nav 
@@ -115,6 +100,29 @@ function init(){
              $('div#room_links').append('<li><a href="#'+data[i]+'" class="white-text sidebar-links">'+data[i]+'</a></li>'); //appends room to sidenav
         }
       });
+   }
+
+
+   //grabs room from url and sends it to server through POST
+   function enterRoom(room){
+      //gets room name from url 
+
+      $.ajax({
+         url: '/getroom', 
+         type: 'POST', 
+         contentType: 'application/json', 
+         dataType: 'json', 
+         data: JSON.stringify({
+            room_name: room
+         })
+      }).success(function(data){
+         var allMessages = " ";
+         $.each(data, function(index, val){
+            console.log(val.content);
+         });
+         //console.log(data);
+      });
+
    }
 
 //gets room name from url 
@@ -131,6 +139,8 @@ $(document).ready(function(){
    $('.modal-trigger').leanModal(); //allows modals to show
     $(document).on("click", ".sidebar-links", function(){
        $("#class_name").html("<h2>" + $(this).text() + "</h2>");
+       enterRoom($(this).text());
+
    });
    init();
    listRooms();
