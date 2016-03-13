@@ -3,7 +3,7 @@ $(".button-collapse").sideNav(); //instantiates sidenav
 var rooms = document.getElementById('slide-out');
 
 function init(){
-   var serverBaseUrl = document.domain;
+   var serverBaseUrl = document.domain+":8080";
 
    var socket = io.connect(serverBaseUrl);
 
