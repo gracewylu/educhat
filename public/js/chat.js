@@ -3,7 +3,7 @@ $(".button-collapse").sideNav(); //instantiates sidenav
 var rooms = document.getElementById('slide-out');
 
 function init(){
-   var serverBaseUrl = document.domain;
+   var serverBaseUrl = document.domain + "8080";
 
    var socket = io.connect(serverBaseUrl);
 
@@ -108,6 +108,7 @@ document.getElementById('class_name').innerHTML = '<h1>Pick a class</h1>';
 
 
 $(document).ready(function(){
+
    $('select').material_select();
    $('.modal-trigger').leanModal(); //allows modals to show
    $('#room_links a').click(function(){
