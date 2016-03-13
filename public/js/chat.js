@@ -53,22 +53,16 @@ function init(){
    //add new room 
    function addRoom(){
       var room_name = $('#class').val();
-      var department = $('#departments option:selected').val();
-      var exists = true;
+      var existsAlready = false;
+      $(".sidebar-links").each(function(){
+               if (room_name == $(this).val()){
+                    existsAlready = true;    
+               }
+        }
+      )
 
-      $.ajax({
-        url: '/roomExists',
-        type: 'POST',
-        contentType: 'application/json',
-        dataType: 'json',
-        data: JSON.stringify({
-           room: room_name 
-        }),
-        
-      }).success(function(data){
-         if (data.length != 0){
-             exists = false;
-         } 
+      if (existsAlready) return;
+      var department = $('#departments option:selected').val();
       $.ajax({
          url: '/room/'+room_name, 
          type: 'POST', 
@@ -79,28 +73,9 @@ function init(){
              dept: department
           })
       });
-
-      setTimeout(function() {
-        if (exists){
-         console.log(exists);
-         $.ajax({
-          url: '/room/'+room_name, 
-          type: 'POST', 
-          contentType: 'application/json', 
-          dataType: 'json', 
-             data: JSON.stringify({
-              room: room_name, 
-              dept: department}) 
-        });
-         $('div#room_links').append('<li><a href="#'+room_name+'" class="white-text sidebar-links">'+room_name+'</a></li>'); //appends room to sidenav
-         $('#addroom_modal').closeModal();
-
-      }else {
-          Materialize.toast('Dude, we need a unique class:(', 6000);
-      }
-
-      }, 2000)
-}
+      $('div#room_links').append('<li><a href="#'+room_name+'" class="white-text sidebar-links">'+room_name+'</a></li>'); //appends room to sidenav
+      $('#addroom_modal').closeModal();
+   }
 
    function sendMessage(){
       var outgoingMessage = $('#message_input').val();
