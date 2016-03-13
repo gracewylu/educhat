@@ -92,7 +92,7 @@ app.set("views", __dirname + "/views");
 app.set("view engine", "jade");
 
 //Specify where the static content is
-app.use(express.static("public", __dirname + "/public"));
+app.use(express.static('public'));
 
 //Tells server to support JSON requests
 app.use(bodyParser.json());
@@ -113,6 +113,9 @@ app.get("/", function(request, response) {
 
 });
 
+app.get('/chat', function(req, res){
+  res.render('chat');
+});
 //adds new room/chatroom to the database
 /** ROOMS */
 app.post("/room/:id", function(request,response){
