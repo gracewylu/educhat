@@ -162,8 +162,12 @@ app.get("/rooms", function(request, response) {
 
 app.post("/getroom", function(request, response){
   var room = request.body.room_name;
+  console.log(room);
   var PastMessages = mongoose.model('Message', Chat_schema);
-  PastMessages.findOne({'room': room})
+  PastMessages.findOne({'room': room}, 'content' function(err, pastmessage){
+    if(err) return handleError(err);
+    console.log('%s has message %s', pastmessage.content )
+  })
 
 
 
