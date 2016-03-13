@@ -65,6 +65,7 @@ function init(){
          console.log("On success");
       });
       $('div#room_links').append('<li><a href="#!" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
+      $('#addroom_modal').closeModal();
    }
 
    function sendMessage(){
