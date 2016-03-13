@@ -5,8 +5,6 @@ This is a project for SIUE eHacks
 
 Developers: Michael Rhodes, Erik Verduin, Suprith Aireddy, Ichi Lee, Grace Lu 
 
-URL: https://chatedu.herokuapp.com/
-
 ## Technology Stack
 ### MongoDB
 ### Express

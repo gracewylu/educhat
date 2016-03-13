@@ -173,6 +173,13 @@ app.post("/getroom", function(request, response) {
 
 });
 
+app.post("/roomExists", function(request, response){
+    Class.find({'class_name':request.body.room}, function(err, results){
+        response.json(200, results);
+    });
+
+});
+
 
 //POST method to create a chat message
 app.post("/message", function(request, response) {
