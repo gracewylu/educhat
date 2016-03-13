@@ -116,6 +116,11 @@ app.get("/", function(request, response) {
 
 });
 
+//make sure to authenticate user and redirect them 
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
+});
 
 //make sure to authenticate user and redirect them 
 app.get('/chat', function(req, res){
