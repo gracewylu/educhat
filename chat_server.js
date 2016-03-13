@@ -116,6 +116,8 @@ app.get("/", function(request, response) {
 
 });
 
+
+//make sure to authenticate user and redirect them 
 app.get('/chat', function(req, res){
   res.render('chat');
 });
