@@ -160,6 +160,19 @@ app.get("/rooms", function(request, response) {
 
 });
 
+app.post("/getroom", function(request, response){
+  var room = request.body.room_name;
+  console.log(room);
+  var PastMessages = mongoose.model('Message', Chat_schema);
+  
+  PastMessages.findOne({'room': room}, 'content', function(err, pastmessage){
+    if(err) return handleError(err);
+    console.log('%s has message %s', pastmessage.content )
+  });
+
+
+
+});
 //POST method to create a chat message
 app.post("/message", function(request, response) {
 
@@ -251,7 +264,7 @@ app.get('/auth/facebook',
   passport.authenticate('facebook'));
  
 app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  passport.authenticate('facebook', { successRedirect : '/chat',failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication, redirect home. 
     console.log("Authenticated");
