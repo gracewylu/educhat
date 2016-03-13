@@ -33,7 +33,10 @@
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.0",
     "socket.io": "^1.0.6",
-    "underscore": "1.6.0"
+    "underscore": "1.6.0",
+    "accepts": "~1.3.2",
+    "ultron": "~1.0.2",
+    "permessage-deflate": "~0.1.5"
   },
   "devDependencies": {},
   "bundleDependencies": [],

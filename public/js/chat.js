@@ -103,14 +103,14 @@ var href = window.location.href;
 var room_name = href.substr(href.lastIndexOf('#')+1);
 
 //window.alert(href.substr(href.lastIndexOf('#')+1));
-document.getElementById('class_name').innerHTML = '<h1>' + room_name + '</h1>';
+document.getElementById('class_name').innerHTML = '<h1>Pick a class</h1>';
 
 
 $(document).ready(function(){
    $('select').material_select();
    $('.modal-trigger').leanModal(); //allows modals to show
    $('#room_links a').click(function(){
-      document.getElementById('class_name').innerHTML = '<h1>' + room_name + '</h1>';
+      document.getElementById('class_name').innerHTML = '<h1>' + $(this).text() + '</h1>';
 
    });
    init();
