@@ -28,8 +28,6 @@ function init(){
    socket.on('addedRoom', function(data){
       var room = data.room; 
       var dept = data.dept; 
-      var admin = data.admin; 
-      var password = data.password;
    });
 
    socket.on("add_room_link", function(data){
@@ -51,8 +49,6 @@ function init(){
 
       if (existsAlready) return;
       var department = $('#departments option:selected').val();
-      var adminstrator = $('#admin').val();
-      var pass = $('#password').val();
       $.ajax({
          url: '/room/'+room_name, 
          type: 'POST', 
@@ -60,9 +56,8 @@ function init(){
          dataType: 'json', 
          data: JSON.stringify({
              room: room_name, 
-             dept: department, 
-             admin: adminstrator,
-             password: pass})
+             dept: department
+          })
       });
       $('div#room_links').append('<li><a href="#'+room_name+'" class="white-text sidebar-links">'+room_name+'</a></li>'); //appends room to sidenav
       $('#addroom_modal').closeModal();
@@ -125,10 +120,10 @@ function init(){
             room_name: room
          })
       }).success(function(data){
-         var allMessages = " ";
          $.each(data, function(index, val){
              var name = 'Anonymous: '; 
-            $('#messages').prepend('<b><span class="blue-text text-darken-2">' + name + "</span>" + val.content + '<hr/>');
+             console.log(val.created);
+            $('#messages').prepend('<b><span class="blue-text text-darken-2">' + val.created + ' ' + name + "</span></b>" + val.content + '<hr/>');
          });
       });
 
