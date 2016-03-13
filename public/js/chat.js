@@ -1,5 +1,11 @@
 $(".button-collapse").sideNav(); //instantiates sidenav
 
+
+   var randnum = Math.random();
+   randnum = randnum.toString();
+   
+   var randomId = randnum.substr(randnum.length - 5);
+
 var rooms = document.getElementById('slide-out');
 
 function init(){
@@ -21,8 +27,16 @@ function init(){
 //Recieve messages from the top of the DOM
    socket.on('incomingMessage', function(data){
       var message = data.message; 
-      var name = 'Anonymous: '; 
-      $('#messages').prepend('<b><span class="blue-text text-darken-2">' + name + "</span>" + message + '<hr/>');
+      var name = 'Anonymous' + randomId + ': '; 
+      var date = new Date();
+      var year = date.getFullYear();
+      var day = date.getDate();
+      var month = date.getMonth();
+             var hour = date.getHours();
+             var mins = date.getMinutes();
+             var secs = date.getSeconds();
+             var full_date = hour + ':' + mins + ':'+ secs + '  ' + month + '/' + day + '/' + year;
+            $('#messages').prepend('<b><span class="blue-text text-darken-2">' + full_date + ' ' + name + "</span></b>" + message + '<hr/>');
    });
 
    socket.on('addedRoom', function(data){
@@ -121,9 +135,17 @@ function init(){
          })
       }).success(function(data){
          $.each(data, function(index, val){
-             var name = 'Anonymous: '; 
-             console.log(val.created);
-            $('#messages').prepend('<b><span class="blue-text text-darken-2">' + val.created + ' ' + name + "</span></b>" + val.content + '<hr/>');
+             var name = 'Anonymous' + randomId + ': '; 
+             var date = val.created;
+             date = new Date(date);
+             var year = date.getFullYear();
+             var day = date.getDate();
+             var month = date.getMonth();
+             var hour = date.getHours();
+             var mins = date.getMinutes();
+             var secs = date.getSeconds();
+             var full_date = hour + ':' + mins + ':'+ secs + '  ' + month + '/' + day + '/' + year;
+            $('#messages').prepend('<b><span class="blue-text text-darken-2">' + full_date + ' ' + name + "</span></b>" + val.content + '<hr/>');
          });
       });
 
@@ -135,13 +157,15 @@ var room_name = href.substr(href.lastIndexOf('#')+1);
 
 
 //window.alert(href.substr(href.lastIndexOf('#')+1));
-document.getElementById('class_name').innerHTML= '<h1>Pick a class</h1>';
+document.getElementById('class_name').innerHTML= '<h1 style="padding-left: 100px; padding-top: 250px;">Pick a class!</h1>';
 
 
 $(document).ready(function(){
+   $('footer').hide();
    $('select').material_select();
    $('.modal-trigger').leanModal(); //allows modals to show
     $(document).on("click", ".sidebar-links", function(){
+      $('footer').show();
        $("#class_name").html("<h2>" + $(this).text() + "</h2>");
        enterRoom($(this).text());
 

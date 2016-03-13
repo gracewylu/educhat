@@ -184,7 +184,7 @@ app.post("/message", function(request, response) {
 
   //sending chats to database 
   var message_data = {
-    created: Date,
+    created: Date(),
     content: message, 
     username: "test", //grab the username
     room: request.body.room
@@ -194,7 +194,7 @@ app.post("/message", function(request, response) {
 
   newChat.save(function(err, savedChat){
     if(err) throw err;
-
+    console.log(savedChat);
   });
 
   response.json(200, {message: "Message received"});
