@@ -41,6 +41,15 @@ function init(){
    //add new room 
    function addRoom(){
       var room_name = $('#class').val();
+      var existsAlready = false;
+      $(".sidebar-links").each(function(){
+               if (room_name == $(this).val()){
+                    existsAlready = true;    
+               }
+        }
+      )
+
+      if (existsAlready) return;
       var department = $('#departments option:selected').val();
       var adminstrator = $('#admin').val();
       var pass = $('#password').val();
