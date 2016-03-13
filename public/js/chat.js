@@ -21,7 +21,8 @@ function init(){
 //Recieve messages from the top of the DOM
    socket.on('incomingMessage', function(data){
       var message = data.message; 
-      $('#messages').prepend('<b>' + message + '<hr/>');
+      var name = 'Anonymous: '; 
+      $('#messages').prepend('<b><span class="blue-text text-darken-2">' + name + "</span>" + message + '<hr/>');
    });
 
    socket.on('addedRoom', function(data){
@@ -53,8 +54,6 @@ function init(){
              dept: department, 
              admin: adminstrator,
              password: pass})
-      }).success(function(){
-         console.log(data['class_name']);
       });
       $('div#room_links').append('<li><a href="#'+room_name+'" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
       $('#addroom_modal').closeModal();
