@@ -186,6 +186,10 @@ app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveU
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get("/logout", function(req, res){
+    req.logout();
+    res.redirect('/');
+});
 
 passport.use(new FacebookStrategy({
     clientID: '947369812024794',
