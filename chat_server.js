@@ -179,16 +179,18 @@ app.post("/message", function(request, response) {
 
 });
 
-/*** Facebook */
 app.use(require('cookie-parser')());
 app.use(require('body-parser').urlencoded({ extended: true }));
 app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get("/logout", function(req, res){
-    req.logout();
-    res.redirect('/');
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
 });
 
 passport.use(new FacebookStrategy({
@@ -196,10 +198,29 @@ passport.use(new FacebookStrategy({
     clientSecret: '404d053f28e3c0dc58ab7da91fdd5a4a',
     callbackURL: "http://localhost:8080/auth/facebook/callback"
   },
-  function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });
+  function(accessToken, refreshToken, profile, done) {
+    User.findOne({
+            'facebook.id': profile.id 
+        }, function(err, user) {
+            if (err) {
+                return done(err);
+            }
+            //No user was found... so create a new user with values from Facebook (all the profile. stuff)
+            if (!user) {
+                user = new User({
+                  fbID: profile.id, 
+                  username: profile.displayName, 
+                  provider: 'facebook'
+                });
+                user.save(function(err) {
+                    if (err) console.log(err);
+                    return done(err, user);
+                });
+            } else {
+                //found user. Return
+                return done(err, user);
+            }
+      });
   }
 ));
 
