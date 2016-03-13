@@ -10,9 +10,9 @@
 <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-<!--Side nav bar which displays all class chatrooms. TODO: Figure out a way to integrate side nav with regular nav-->
 <header>
     <nav class="red darken-3">
+    	<a href="#!" class="brand-logo center"><img src="/imgs/logo.png"></a>
         <ul id="nav-mobile" class="right">
             <li><a href="/">About eduChat</a></li>
             <li><a href="logout">Logout</a></li>
@@ -31,24 +31,16 @@
             <form class="col s12" method="POST" action="/newRoom">
                 <div class="row">
                     <div class="input-field col l7 offset-l3 m6 s12 ">
-                        <input id="class" name="class" type="text" class="validate"/>
+                        <input id="class" name="class" type="text" class="validate" required/>
                         <label for="class">Class</label>
                     </div>
-                    <div class="input-field col l7 offset-l3 m6 s12 ">
+                    <div class="input-field col l7 offset-l3 m6 s12" required>
                         <select id="departments">
                             <option value="Engineering">Engineering</option>
                             <option value="Nursing">Nursing</option>
                             <option value="Business">Business</option>
                         </select>
                         <label>Department</label>
-                    </div>
-                    <div class="input-field col l7 offset-l3 m6 s12 ">
-                        <input id="admin" name="admin" type="text" class="validate"/>
-                        <label for="admin">Admin</label>
-                    </div>
-                    <div class="input-field col l7 offset-l3 m6 s12 ">
-                        <input id="password" name="password" type="password" class="validate"/>
-                        <label for="password">Admin Password</label>
                     </div>
                 </div>
                 <div class="row center-align">
@@ -75,7 +67,7 @@
 				<form class="col s12">
 					<div class="row">
 						<div class="input-field col l12 offset-l2 s12">
-							<textarea id="message_input" class="col l8 materialize-textarea"></textarea>
+							<textarea id="message_input" class="col l8 materialize-textarea" placeholder="Enter Text"></textarea>
 							<div id="send" class="col l2 offset-l1 btn waves-effect waves-light custom-button grey darken-4">Send</div>
 						</div>
 					</div>

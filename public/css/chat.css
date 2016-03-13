@@ -20,6 +20,10 @@ main{
 	
 }
 
+a: active{
+	background-color: #757575;
+}
+
 /*.chatrooms{
 	position: fixed;
 	bottom: 3px;
