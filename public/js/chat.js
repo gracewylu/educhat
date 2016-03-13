@@ -64,9 +64,12 @@ function init(){
       }).success(function(){
          console.log("On success");
       });
-      $('div#room_links').append('<li><a href="#!" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
+      $('div#room_links').append('<li><a href="#'+room_name+'" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
    }
 
+   function listRooms(){
+      var href=""
+   }
    function sendMessage(){
       var outgoingMessage = $('#message_input').val();
       $.ajax({
@@ -100,6 +103,7 @@ function init(){
 
 var room_name = getParameterByName('room_name');
 document.getElementById('class_name').innerHTML = '<h1>' + room_name + '</h1>';
+
 $(document).ready(function(){
    $('select').material_select();
    $('.modal-trigger').leanModal(); //allows modals to show
