@@ -158,8 +158,8 @@ app.get("/rooms", function(request, response) {
 app.post("/getroom", function(request, response){
   var room = request.body.room_name;
   var PastMessages = mongoose.model('Message', Chat_schema);
+  PastMessages.findOne({'room': room})
 
-  
 
 
 });
