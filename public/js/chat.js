@@ -93,7 +93,7 @@ function init(){
    function listRooms(){
       $.get("/rooms", function(data){
         for(var i = 0; i < data.length; i++){
-             $('div#room_links').append('<li><a href="#'+data[i]+'" class="white-text">'+data[i]+'</a></li>'); //appends room to sidenav
+             $('div#room_links').append('<li><a href="#'+data[i]+'" class="white-text sidebar-links">'+data[i]+'</a></li>'); //appends room to sidenav
         }
       });
    }
@@ -103,15 +103,14 @@ var href = window.location.href;
 var room_name = href.substr(href.lastIndexOf('#')+1);
 
 //window.alert(href.substr(href.lastIndexOf('#')+1));
-document.getElementById('class_name').innerHTML = '<h1>Pick a class</h1>';
+document.getElementById('class_name').innerHTML= '<h1>Pick a class</h1>';
 
 
 $(document).ready(function(){
    $('select').material_select();
    $('.modal-trigger').leanModal(); //allows modals to show
-   $('#room_links a').click(function(){
-      document.getElementById('class_name').innerHTML = '<h1>' + $(this).text() + '</h1>';
-
+    $(document).on("click", ".sidebar-links", function(){
+       $("#class_name").html("<h2>" + $(this).text() + "</h2>");
    });
    init();
    listRooms();
