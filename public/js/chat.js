@@ -41,6 +41,15 @@ function init(){
    //add new room 
    function addRoom(){
       var room_name = $('#class').val();
+      var existsAlready = false;
+      $(".sidebar-links").each(function(){
+               if (room_name == $(this).val()){
+                    existsAlready = true;    
+               }
+        }
+      )
+
+      if (existsAlready) return;
       var department = $('#departments option:selected').val();
       var adminstrator = $('#admin').val();
       var pass = $('#password').val();
@@ -55,7 +64,7 @@ function init(){
              admin: adminstrator,
              password: pass})
       });
-      $('div#room_links').append('<li><a href="#'+room_name+'" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
+      $('div#room_links').append('<li><a href="#'+room_name+'" class="white-text sidebar-links">'+room_name+'</a></li>'); //appends room to sidenav
       $('#addroom_modal').closeModal();
    }
    function sendMessage(){
