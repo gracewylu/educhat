@@ -17,10 +17,11 @@ function init(){
    socket.on('userDisconnected', function(data){
       $('#' + data.id).remove();
    });
-
+   
+//Recieve messages from the top of the DOM
    socket.on('incomingMessage', function(data){
       var message = data.message; 
-      $('#messages').append('<b>' + message + '<hr/>');
+      $('#messages').prepend('<b>' + message + '<hr/>');
    });
 
    socket.on('addedRoom', function(data){
@@ -75,7 +76,7 @@ function init(){
             return ;
          }
          sendMessage();
-         $('#message_input').val('');
+        $('#message_input').val('');
       }
    }
    function messageInputKeyUp(){
