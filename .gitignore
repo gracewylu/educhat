@@ -1,4 +1,6 @@
-
+node_modules
+*.iml
+.idea
 
 # Created by https://www.gitignore.io/api/sass,vim
 
@@ -22,6 +24,7 @@ tags
 
 ### Node ###
 # Logs
+node_modules/*
 logs
 *.log
 npm-debug.log*

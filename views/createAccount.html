@@ -1,0 +1,33 @@
+<!-- index.html -->
+<!-- Initial HTML file with basic structure -->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Create Account</title>
+		<link rel="stylesheet" type="text/css" href="../public/css/styleCA.css">
+		<link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+	</head>
+	<body ng-app="formlyApp" ng-controller="MainController as vm">
+		
+		<!-- Method:Post? -->
+		<div class="container col-md-4 col-md-offset-4">
+			<form result="formData" fields="formFields" options="formOptions" ng-submit="onSubmit()" method="post" action="http://localhost:8080/">
+				<h1>Create An Account</h1>
+				<formly-form model="vm.rental" fields="vm.rentalFields" form="vm.rentalForm">
+					<button type="submit" class="btn btn-primary" ng-disabled="vm.rentalForm.$invalid">Submit</button>
+				</formly-form>
+			</form>
+		</div>
+	</body>
+	
+		<!-- Application Dependencies -->
+		<script src="../node_modules/api-check/dist/api-check.js"></script>
+		<script src="../node_modules/angular/angular.js"></script>
+		<script src="../node_modules/angular-formly/dist/formly.js"></script>
+		<script src="../node_modules/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.js"></script>
+
+		<!-- Application Scripts -->
+		<script src="../public/js/app.js"></script>
+		<script src="../public/js/MainController.js"></script>
+		<script src="../public/js/province.js"></script>
+</html>

@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+ 
+<!-- If IE use the latest rendering engine -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+ 
+<!-- Set the page to the width of the device and set the zoon level -->
+<meta name="viewport" content="width = device-width, initial-scale = 1">
+<title>educhat</title>
+<!-- Materilize import -->
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="/css/homePageStyle.css">
+
+ <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+ <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+
+</head>
+<body>
+
+  <div class="navbar-fixed">
+    <nav>
+      <div class="nav-wrapper red darken-4">
+        <a href="#!" class="brand-logo center">eduChat</a>
+        
+      </div>
+    </nav>
+  </div>
+
+
+  <div id="myCarousel" class="carousel slide">
+			<ol class="carousel-indicators">
+				<li data-target = "myCarousel" data-slide-to = "0"></li>
+				<li data-target = "myCarousel" data-slide-to = "1"></li>
+				<li data-target = "myCarousel" data-slide-to = "2" ></li>
+			</ol>
+
+			<div class="carousel-inner">
+				<div class="item active"> 
+					<img src="/imgs/quad5.jpg" class="img-responsive">
+				</div>
+				<div class="item"> 
+					<img src="/imgs/siue.jpg" class= "img-responsive">
+				</div>
+				<div class="item"> 
+					<img src="/imgs/front2.jpg" class= "img-responsive">
+				</div>
+			</div>
+
+			<a  class = "carousel-control left"href="#myCarousel" data-slide ="prev"> <span class="icon-prev"></span></a>
+
+			<a  class = "carousel-control right"href="#myCarousel" data-slide ="next"> <span class="icon-next"></span></a>
+
+  </div>
+
+		  <div class="row margin">
+		  	 <a href="/auth/facebook" id="login" class="col offset-l5 btn waves-effect waves-light custom-button blue darken-4">Login with Facebook!</a>
+
+		</div>
+
+      <div class="row jumbotron">
+        <div class="col s12 m4">
+        	<h1 class= "center">Step 1</h1>
+            <h2 class="center light-blue-text"><i class="material-icons">email</i></h2>
+            <h5 class="center">Create an Account</h5>
+
+            <p class="light center">Sign in using an edu email to verify that you are a studnt taking a college class at the university. This ensures that everyone in the chat is in the same university as you.</p>
+        </div>
+
+        <div class="col s12 m4">
+          	<h1 class= "center">Step 2</h1>
+            <h2 class="center light-blue-text"><i class="material-icons">settings</i></h2>
+            <h5 class="center">Pick your classes</h5>
+
+            <p class="light center">By picking your classes, you can then choose the class you want to talk to others in. This chat is anonymous so the messages are sent by random people in the same class as you. </p>
+          
+        </div>
+
+        <div class="col s12 m4">
+          	<h1 class= "center">Step 3</h1>
+            <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
+            <h5 class="center">Meet New Students</h5>
+
+            <p class="light center">By talking anonymously there is no awkward conversations. This allows you to collaborate with other classmates to get homework answers and ultimately earn a better grade.</p>
+          
+        </div>
+      </div>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('.carousel').carousel({
+				interval: 3000
+			});
+
+			$('.carousel').carousel('cycle');
+		});
+	</script>  
+
+</body>
+</html>
+
