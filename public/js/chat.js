@@ -17,10 +17,11 @@ function init(){
    socket.on('userDisconnected', function(data){
       $('#' + data.id).remove();
    });
-
+   
+//Recieve messages from the top of the DOM
    socket.on('incomingMessage', function(data){
       var message = data.message; 
-      $('#messages').append('<b>' + message + '<hr/>');
+      $('#messages').prepend('<b>' + message + '<hr/>');
    });
 
    socket.on('addedRoom', function(data){
@@ -75,7 +76,7 @@ function init(){
             return ;
          }
          sendMessage();
-         $('#message_input').val('');
+        $('#message_input').val('');
       }
    }
    function messageInputKeyUp(){
@@ -103,14 +104,14 @@ var href = window.location.href;
 var room_name = href.substr(href.lastIndexOf('#')+1);
 
 //window.alert(href.substr(href.lastIndexOf('#')+1));
-document.getElementById('class_name').innerHTML = '<h1>' + room_name + '</h1>';
+document.getElementById('class_name').innerHTML = '<h1>Pick a class</h1>';
 
 
 $(document).ready(function(){
    $('select').material_select();
    $('.modal-trigger').leanModal(); //allows modals to show
    $('#room_links a').click(function(){
-      document.getElementById('class_name').innerHTML = '<h1>' + room_name + '</h1>';
+      document.getElementById('class_name').innerHTML = '<h1>' + $(this).text() + '</h1>';
 
    });
    init();

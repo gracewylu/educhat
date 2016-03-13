@@ -24,6 +24,8 @@ var express = require("express")
   , mongoose = require('mongoose')
   , passport = require('passport');
 
+var path = require('path');
+
 mongoose.connect('mongodb://educhat:educhatpass@ds011409.mlab.com:11409/educhat');
 
 var FacebookStrategy = require('passport-facebook').Strategy;
@@ -93,6 +95,7 @@ app.set("view engine", "jade");
 
 //Specify where the static content is
 app.use(express.static('public'));
+
 
 //Tells server to support JSON requests
 app.use(bodyParser.json());
