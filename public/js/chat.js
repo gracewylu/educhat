@@ -60,10 +60,11 @@ function init(){
    }
 
    //grabs room from url and sends it to server through POST
-   function enterRoom(){
+   function enterRoom(event){
       //gets room name from url 
       var href = window.location.href;
       var room_name = href.substr(href.lastIndexOf('#')+1);
+      console.log(room_name);
       $.ajax({
          url: '/getroom', 
          type: 'POST', 
@@ -104,6 +105,7 @@ function init(){
    $('#message_input').on('keyup', messageInputKeyUp);
    $('#send').on('click', sendMessage);
    $('#add_room_button').on('click', addRoom);
+   $('.sidenav-links').on('click', enterRoom);
 }
 
    //list rooms in side nav 
