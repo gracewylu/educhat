@@ -155,6 +155,14 @@ app.get("/rooms", function(request, response) {
 
 });
 
+app.post("/getroom", function(request, response){
+  var room = request.body.room_name;
+  var PastMessages = mongoose.model('Message', Chat_schema);
+
+  
+
+
+});
 //POST method to create a chat message
 app.post("/message", function(request, response) {
 

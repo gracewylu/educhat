@@ -55,8 +55,25 @@ function init(){
              admin: adminstrator,
              password: pass})
       });
-      $('div#room_links').append('<li><a href="#'+room_name+'" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
+      $('div#room_links').append('<li><a href="#'+room_name+'" class="white-text sidebar-links">'+room_name+'</a></li>'); //appends room to sidenav
       $('#addroom_modal').closeModal();
+   }
+
+   //grabs room from url and sends it to server through POST
+   function enterRoom(){
+      //gets room name from url 
+      var href = window.location.href;
+      var room_name = href.substr(href.lastIndexOf('#')+1);
+      $.ajax({
+         url: '/getroom', 
+         type: 'POST', 
+         contenType: 'application/json', 
+         dataType: 'json', 
+         data: JSON.stringify({
+            room_name: room_name
+         })
+      });
+
    }
    function sendMessage(){
       var outgoingMessage = $('#message_input').val();
@@ -101,6 +118,7 @@ function init(){
 //gets room name from url 
 var href = window.location.href;
 var room_name = href.substr(href.lastIndexOf('#')+1);
+
 
 //window.alert(href.substr(href.lastIndexOf('#')+1));
 document.getElementById('class_name').innerHTML = '<h1>Pick a class</h1>';
