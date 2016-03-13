@@ -1,19 +1,6 @@
-// var MongoClient = require('mongodb').MongoClient;
-// var assert = require('assert');
-// var ObjectID = require('mongodb').ObjectID;
-// var url = "mongodb://ds011409.mlab.com:11409/educhat";
-
 $(".button-collapse").sideNav(); //instantiates sidenav
 
 var rooms = document.getElementById('slide-out');
-
-function addRoom(){
-
-   //TODO: make sure to add the room to the database as well 
-   var room_name = document.getElementById('class').value;
-
-   $('div#room_links').append('<li><a href="?room_name=' + room_name+ '" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
-}
 
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
@@ -26,10 +13,6 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
 
-// var findClasses = function(db, callback){
-   
-// }
-document.getElementById('add_room_button').addEventListener("click", addRoom, false);
 
 function init(){
    var serverBaseUrl = document.domain;
@@ -53,27 +36,36 @@ function init(){
       $('#messages').append('<b>' + message + '<hr/>');
    });
 
+   socket.on('addedRoom', function(data){
+      var room = data.room; 
+      var dept = data.dept; 
+      var admin = data.admin; 
+      var password = data.password;
+   })
    socket.on('error', function(reason){
       console.log('Unable to connect to server', reason);
    });
 
-    function newRoom(){
-      var room = $('#class').val();
-      var department = $('#depo').val();
+   function addRoom(){
+      var room_name = $('#class').val();
+      var department = $('#departments option:selected').val();
       var adminstrator = $('#admin').val();
       var pass = $('#password').val();
       $.ajax({
-         url: '/newRoom', 
+         url: '/room/'+room_name, 
          type: 'POST', 
          contentType: 'application/json', 
          dataType: 'json', 
          data: JSON.stringify({
-             class: room, 
-             depo: department, 
+             room: room_name, 
+             dept: department, 
              admin: adminstrator,
-             password: pass
-        })
+             password: pass})
+      }).success(function(){
+         console.log("On success");
       });
+      $('div#room_links').append('<li><a href="#!" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
+      $('#addroom_modal').closeModal();
    }
 
    function sendMessage(){
@@ -104,12 +96,13 @@ function init(){
    $('#message_input').on('keydown', messageInputKeyDown);
    $('#message_input').on('keyup', messageInputKeyUp);
    $('#send').on('click', sendMessage);
-   $('#add_room_button').on('click', newRoom);
+   $('#add_room_button').on('click', addRoom);
 }
 
 var room_name = getParameterByName('room_name');
 document.getElementById('class_name').innerHTML = '<h1>' + room_name + '</h1>';
 $(document).ready(function(){
+    $("select").material_select();
    $('.modal-trigger').leanModal(); //allows modals to show
    init();
 });

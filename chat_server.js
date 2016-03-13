@@ -15,11 +15,6 @@
 
  */
 
-//  var MongoClient = require('mongodb').MongoClient;
-// var assert = require('assert');
-// var ObjectId = require('mongodb').ObjectID;
-// var url = 'mongodb://ds011409.mlab.com:11409/educhat';
-
 var express = require("express")
   , app = express()
   , http = require("http").createServer(app)
@@ -27,9 +22,11 @@ var express = require("express")
   , io = require("socket.io").listen(http)
   , _ = require("underscore")
   , mongoose = require('mongoose')
-  , db = require('mongodb').Db;
+  , passport = require('passport');
 
-mongoose.connect('mongodb://ds011409.mlab.com:11409/educhat');
+mongoose.connect('mongodb://educhat:educhatpass@ds011409.mlab.com:11409/educhat');
+
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 //if there is an error with mongoose connection 
 mongoose.connection.on('error', function(err){
@@ -62,8 +59,25 @@ var Chat_schema = mongoose.Schema({
   room: String
 });
 
-var Chat = mongoose.model('Message', Chat_schema);
+//var ObjectId = mongoose.Schema.Types.ObjectId;
 
+var Class_schema = mongoose.Schema({
+  class_name: String, 
+  class_id: Number, 
+  department: String, 
+  admin: String, 
+  admin_password: String 
+});
+
+var User_schema = mongoose.Schema({
+  fbID: Number, 
+  username: String, 
+  provider: String 
+});
+
+var Chat = mongoose.model('Message', Chat_schema);
+var Class = mongoose.model('Class', Class_schema);
+var User = mongoose.model('User', User_schema);
 /* Server config */
 
 //Server's IP address
@@ -93,13 +107,37 @@ app.get("/", function(request, response) {
 
 });
 
+//adds new room/chatroom to the database
 /** ROOMS */
-app.get("/room/:id", function(request,response){
+app.post("/room/:id", function(request,response){
+  var room = request.body.room;
+  var dept = request.body.dept; 
+  var admin = request.body.admin; 
+  var password = request.body.password;
+
+  var class_data = {
+    class_name: room,
+    class_id: 3, 
+    department: dept, 
+    admin: admin, 
+    admin_password: admin 
+  }
+
+  var newClass = new Class(class_data);
+
+  newClass.save(function(err, savedClass){
+    if(err) throw err;
+
+  });
+
+  response.json(200, {success: "Success!"});
+});
+
+//lists room on side-nav 
+app.get("/room/:id", function(request, response){
   console.log(request.params.id)
   response.end();
 });
-
-
 
 //POST method to create a chat message
 app.post("/message", function(request, response) {
@@ -119,25 +157,20 @@ app.post("/message", function(request, response) {
   console.log("message: " + message);
   
   //Let our chatroom know there was a new message
-  io.sockets.emit("incomingMessage", {message: message, name: name});
+  io.sockets.emit("incomingMessage", {message: message});
 
   //sending chats to database 
   var message_data = {
     created: new Date(),
     content: message, 
-    username: "test", 
-    room: "CS101"
+    username: "test", //grab the username
+    room: "CS101" //grab room you're in 
   }
 
   var newChat = new Chat(message_data);
 
-  console.log(newChat);
   newChat.save(function(err, savedChat){
-    console.log(err);
-
     if(err) throw err;
-
-    console.log(savedChat);
 
   });
 
@@ -146,42 +179,37 @@ app.post("/message", function(request, response) {
 
 });
 
+/*** Facebook */
+app.use(require('cookie-parser')());
+app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
-/* Socket.IO events */
-// io.on("connection", function(socket){
 
-  /*
-   When a new user connects to our server, we expect an event called "newUser"
-   and then we'll emit an event called "newConnection" with a list of all
-   participants to all connected clients
-   */
-  // socket.on("newUser", function(data) {
-  //   participants.push({id: data.id, name: data.name});
-  //   io.sockets.emit("newConnection", {participants: participants});
-  // });
+passport.use(new FacebookStrategy({
+    clientID: '947369812024794',
+    clientSecret: '404d053f28e3c0dc58ab7da91fdd5a4a',
+    callbackURL: "http://localhost:8080/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
 
-  /*
-   When a user changes his name, we are expecting an event called "nameChange"
-   and then we'll emit an event called "nameChanged" to all participants with
-   the id and new name of the user who emitted the original message
-   */
-  // socket.on("nameChange", function(data) {
-  //   _.findWhere(participants, {id: socket.id}).name = data.name;
-  //   io.sockets.emit("nameChanged", {id: data.id, name: data.name});
-  // });
-
-  /*
-   When a client disconnects from the server, the event "disconnect" is automatically
-   captured by the server. It will then emit an event called "userDisconnected" to
-   all participants with the id of the client that disconnected
-   */
-//   socket.on("disconnect", function() {
-//     participants = _.without(participants,_.findWhere(participants, {id: socket.id}));
-//     io.sockets.emit("userDisconnected", {id: socket.id, sender:"system"});
-//   });
-
-// });
-
+/*** Facebook */
+app.get('/auth/facebook',
+  passport.authenticate('facebook'));
+ 
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home. 
+    console.log("Authenticated");
+    res.redirect('/');
+  });
 
 //Start the http server at port and IP defined before
 http.listen(app.get("port"), app.get("ipaddr"), function() {

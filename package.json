@@ -22,12 +22,16 @@
   },
   "dependencies": {
     "body-parser": "1.4.3",
+    "cookie-parser": "^1.4.1",
     "express": "4.6.1",
+    "express-session": "^1.13.0",
     "jade": "1.4.2",
     "media-typer": "^0.3.0",
     "mongodb": "^2.1.7",
     "mongoose": "~4.2.7",
     "mysql": "~2.10.2",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.0",
     "socket.io": "^1.0.6",
     "underscore": "1.6.0"
   },
