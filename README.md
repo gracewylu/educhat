@@ -3,7 +3,9 @@ This is a website that lets you talk to people in your college classes specifica
 
 This is a project for SIUE eHacks 
 
-Developers: Michael Rhodes, Erik Verduin, Suprith Aireddy, Ichi Lee, Grace Lu 
+Developers: Michael Rhodes, Erik Verduin, Suprith Aireddy, Ichi Lee, Grace Lu, Jordan Walker
+
+Special thanks to Jordan Walker for being all around awesome.
 
 ## Technology Stack
 ### MongoDB
