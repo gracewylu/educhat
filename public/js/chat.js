@@ -11,7 +11,6 @@ function init(){
 
    socket.on('connect', function(){
       sessionId = socket.io.engine.id;
-      console.log('Connected ' + sessionId);
       socket.emit('newUser', {id: sessionId})
    });
 
@@ -37,7 +36,7 @@ function init(){
    socket.on('error', function(reason){
       console.log('Unable to connect to server', reason);
    });
-
+   //add new room 
    function addRoom(){
       var room_name = $('#class').val();
       var department = $('#departments option:selected').val();
@@ -54,14 +53,10 @@ function init(){
              admin: adminstrator,
              password: pass})
       }).success(function(){
-         console.log("On success");
+         console.log(data['class_name']);
       });
       $('div#room_links').append('<li><a href="#'+room_name+'" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
       $('#addroom_modal').closeModal();
-   }
-
-   function listRooms(){
-      var href=""
    }
    function sendMessage(){
       var outgoingMessage = $('#message_input').val();
@@ -94,6 +89,15 @@ function init(){
    $('#add_room_button').on('click', addRoom);
 }
 
+   //list rooms in side nav 
+   function listRooms(){
+      $.get("/rooms", function(data){
+        for(var i = 0; i < data.length; i++){
+             $('div#room_links').append('<li><a href="#'+data[i]+'" class="white-text">'+data[i]+'</a></li>'); //appends room to sidenav
+        }
+      });
+   }
+
 var href = window.location.href;
 var room_name = href.substr(href.lastIndexOf('#')+1);
 
@@ -109,4 +113,5 @@ $(document).ready(function(){
 
    });
    init();
+   listRooms();
 });

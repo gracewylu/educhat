@@ -101,8 +101,11 @@ app.use(bodyParser.json());
 
 //Handle route "GET /", as in "http://localhost:8080/"
 app.get("/", function(request, response) {
-  Class.find({}, function(err, classes){
-    console.log(classes);
+  // Class.find({'class_name': 'slapmybitchup'}, function(err, classes){
+  //   console.log(classes);
+  // });
+  Class.find().distinct('class_name', function(err, results){
+
   });
 
   //Render the view called "index"
@@ -136,10 +139,12 @@ app.post("/room/:id", function(request,response){
   response.json(200, {success: "Success!"});
 });
 
-//lists room on side-nav 
-app.get("/room/:id", function(request, response){
+//gets list of classes/chatrooms to list in side nav-bar
+app.get("/rooms", function(request, response) {
+  Class.find().distinct('class_name', function(err, results){
+    response.json(200, results);
+  });
 
-  response.end();
 });
 
 //POST method to create a chat message
