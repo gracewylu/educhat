@@ -101,6 +101,12 @@ app.use(bodyParser.json());
 
 //Handle route "GET /", as in "http://localhost:8080/"
 app.get("/", function(request, response) {
+  // Class.find({'class_name': 'slapmybitchup'}, function(err, classes){
+  //   console.log(classes);
+  // });
+  Class.find().distinct('class_name', function(err, results){
+
+  });
 
   //Render the view called "index"
   response.render("index");
@@ -133,10 +139,12 @@ app.post("/room/:id", function(request,response){
   response.json(200, {success: "Success!"});
 });
 
-//lists room on side-nav 
-app.get("/room/:id", function(request, response){
-  console.log(request.params.id)
-  response.end();
+//gets list of classes/chatrooms to list in side nav-bar
+app.get("/rooms", function(request, response) {
+  Class.find().distinct('class_name', function(err, results){
+    response.json(200, results);
+  });
+
 });
 
 //POST method to create a chat message
@@ -157,7 +165,7 @@ app.post("/message", function(request, response) {
   console.log("message: " + message);
   
   //Let our chatroom know there was a new message
-  io.sockets.emit("incomingMessage", {message: message});
+  io.sockets.emit("incomingMessage", {name: 'Anonymous', message: message});
 
   //sending chats to database 
   var message_data = {
