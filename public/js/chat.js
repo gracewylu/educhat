@@ -115,7 +115,7 @@ function init(){
    //grabs room from url and sends it to server through POST
    function enterRoom(room){
       //gets room name from url 
-
+      $('#messages').empty();
       $.ajax({
          url: '/getroom', 
          type: 'POST', 
@@ -127,9 +127,9 @@ function init(){
       }).success(function(data){
          var allMessages = " ";
          $.each(data, function(index, val){
-            console.log(val.content);
+             var name = 'Anonymous: '; 
+            $('#messages').prepend('<b><span class="blue-text text-darken-2">' + name + "</span>" + val.content + '<hr/>');
          });
-         //console.log(data);
       });
 
    }
