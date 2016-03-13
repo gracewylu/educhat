@@ -67,8 +67,6 @@ var Class_schema = mongoose.Schema({
   class_name: String, 
   class_id: Number, 
   department: String, 
-  admin: String, 
-  admin_password: String 
 });
 
 var User_schema = mongoose.Schema({
@@ -104,13 +102,6 @@ app.use(bodyParser.json());
 
 //Handle route "GET /", as in "http://localhost:8080/"
 app.get("/", function(request, response) {
-  // Class.find({'class_name': 'slapmybitchup'}, function(err, classes){
-  //   console.log(classes);
-  // });
-  Class.find().distinct('class_name', function(err, results){
-
-  });
-
   //Render the view called "index"
   response.render("index");
 
@@ -131,15 +122,11 @@ app.get('/chat', function(req, res){
 app.post("/room/:id", function(request,response){
   var room = request.body.room;
   var dept = request.body.dept; 
-  var admin = request.body.admin; 
-  var password = request.body.password;
 
   var class_data = {
     class_name: room,
     class_id: 3, 
     department: dept, 
-    admin: admin, 
-    admin_password: admin 
   }
 
   var newClass = new Class(class_data);
@@ -159,6 +146,7 @@ app.get("/rooms", function(request, response) {
   });
 
 });
+
 
 //-----------------------------------------------------
 //THIS IS A QUERY THAT FINDS ALL OF THE RESULTS WHERE IT MATCHES THE ROOM SENT THROUGH THE POST METHOD 
@@ -181,7 +169,7 @@ app.post("/roomExists", function(request, response){
 });
 
 
-//POST method to create a chat message
+//POST method to create a chat message and send it to the server
 app.post("/message", function(request, response) {
 
   //The request body expects a param named "message"
@@ -203,7 +191,7 @@ app.post("/message", function(request, response) {
 
   //sending chats to database 
   var message_data = {
-    created: new Date(),
+    created: Date,
     content: message, 
     username: "test", //grab the username
     room: request.body.room
@@ -216,7 +204,6 @@ app.post("/message", function(request, response) {
 
   });
 
-  //Looks good, let the client know
   response.json(200, {message: "Message received"});
 
 });

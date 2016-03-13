@@ -28,8 +28,6 @@ function init(){
    socket.on('addedRoom', function(data){
       var room = data.room; 
       var dept = data.dept; 
-      var admin = data.admin; 
-      var password = data.password;
    });
 
    socket.on("add_room_link", function(data){
@@ -42,8 +40,6 @@ function init(){
    function addRoom(){
       var room_name = $('#class').val();
       var department = $('#departments option:selected').val();
-      var adminstrator = $('#admin').val();
-      var pass = $('#password').val();
       var exists = true;
 
       $.ajax({
@@ -59,6 +55,15 @@ function init(){
          if (data.length != 0){
              exists = false;
          } 
+      $.ajax({
+         url: '/room/'+room_name, 
+         type: 'POST', 
+         contentType: 'application/json', 
+         dataType: 'json', 
+         data: JSON.stringify({
+             room: room_name, 
+             dept: department
+          })
       });
 
       setTimeout(function() {
@@ -71,9 +76,7 @@ function init(){
           dataType: 'json', 
              data: JSON.stringify({
               room: room_name, 
-              dept: department, 
-              admin: adminstrator,
-              password: pass})
+              dept: department}) 
         });
          $('div#room_links').append('<li><a href="#'+room_name+'" class="white-text sidebar-links">'+room_name+'</a></li>'); //appends room to sidenav
          $('#addroom_modal').closeModal();
@@ -132,7 +135,7 @@ function init(){
    //grabs room from url and sends it to server through POST
    function enterRoom(room){
       //gets room name from url 
-
+      $('#messages').empty();
       $.ajax({
          url: '/getroom', 
          type: 'POST', 
@@ -142,11 +145,11 @@ function init(){
             room_name: room
          })
       }).success(function(data){
-         var allMessages = " ";
          $.each(data, function(index, val){
-            console.log(val.content);
+             var name = 'Anonymous: '; 
+             console.log(val.created);
+            $('#messages').prepend('<b><span class="blue-text text-darken-2">' + val.created + ' ' + name + "</span></b>" + val.content + '<hr/>');
          });
-         //console.log(data);
       });
 
    }
