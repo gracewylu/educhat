@@ -2,18 +2,6 @@ $(".button-collapse").sideNav(); //instantiates sidenav
 
 var rooms = document.getElementById('slide-out');
 
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    url = url.toLowerCase(); // This is just to avoid case sensitiveness  
-    name = name.replace(/[\[\]]/g, "\\$&").toLowerCase();// This is just to avoid case sensitiveness for query parameter name
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
-
 function init(){
    var serverBaseUrl = document.domain;
 
@@ -41,6 +29,10 @@ function init(){
       var dept = data.dept; 
       var admin = data.admin; 
       var password = data.password;
+   });
+
+   socket.on("add_room_link", function(data){
+      document.getElementById('class_name').innerHTML = '<h1>' + room_name + '</h1>';
    })
    socket.on('error', function(reason){
       console.log('Unable to connect to server', reason);
@@ -65,6 +57,7 @@ function init(){
          console.log("On success");
       });
       $('div#room_links').append('<li><a href="#'+room_name+'" class="white-text">'+room_name+'</a></li>'); //appends room to sidenav
+      $('#addroom_modal').closeModal();
    }
 
    function listRooms(){
@@ -77,7 +70,7 @@ function init(){
          type: 'POST', 
          contentType: 'application/json', 
          dataType: 'json', 
-         data: JSON.stringify({message: outgoingMessage})
+         data: JSON.stringify({message: outgoingMessage, name: name})
       });
    }
    function messageInputKeyDown(event){
@@ -101,11 +94,19 @@ function init(){
    $('#add_room_button').on('click', addRoom);
 }
 
-var room_name = getParameterByName('room_name');
+var href = window.location.href;
+var room_name = href.substr(href.lastIndexOf('#')+1);
+
+//window.alert(href.substr(href.lastIndexOf('#')+1));
 document.getElementById('class_name').innerHTML = '<h1>' + room_name + '</h1>';
+
 
 $(document).ready(function(){
    $('select').material_select();
    $('.modal-trigger').leanModal(); //allows modals to show
+   $('#room_links a').click(function(){
+      document.getElementById('class_name').innerHTML = '<h1>' + room_name + '</h1>';
+
+   });
    init();
 });

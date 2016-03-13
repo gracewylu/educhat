@@ -58,34 +58,38 @@
             }
         },
 		{
-			key: 'under25',
-			type: 'checkbox',
-			templateOptions: {
-				label: 'Are you under 25?',
-			},
-			//Hide this field if we don't have any valid input in the email field
-			hideExpression: '!model.email'
-		},
+            key: 'password',
+            type: 'input',
+            templateOptions: {
+                type: 'password',
+                label: 'Password',
+                placeholder: 'Enter password',
+                required: true
+            }
+        },
 		{
-			key: 'province',
-			type: 'select',
+            key: 'confirm',
+            type: 'input',
+            templateOptions: {
+                type: 'password',
+                label: 'Confirm',
+                placeholder: 'Enter password again',
+                required: true
+            },
+			hideExpression: '!model.password'
+        },
+		{
+			key: 'department',
+			type: 'radio',
 			templateOptions: {
-				label: 'Province/Territory',
+				label: 'Department',
+				required: true,
 				//Call our province service to get a list
 				//of provinces and territories
 				options: province.getProvinces()
 			},
-			hideExpression: '!model.email'
-		},
-		{
-        key: 'insurance',
-        type: 'input',
-        templateOptions: {
-            label: 'Insurance Policy Number',
-            placeholder: 'Enter your insurance policy number'
-        },
-        hideExpression: '!model.under25 || !model.province',
-    }
+			hideExpression: '!model.confirm'
+		}
 		];
 	}
 	
