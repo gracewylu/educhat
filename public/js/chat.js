@@ -98,6 +98,7 @@ function init(){
       });
    }
 
+//gets room name from url 
 var href = window.location.href;
 var room_name = href.substr(href.lastIndexOf('#')+1);
 
