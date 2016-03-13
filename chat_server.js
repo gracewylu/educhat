@@ -248,7 +248,7 @@ app.get('/auth/facebook/callback',
   function(req, res) {
     // Successful authentication, redirect home. 
     console.log("Authenticated");
-    res.redirect('/');
+    res.redirect('/chat');
   });
 
 //Start the http server at port and IP defined before
